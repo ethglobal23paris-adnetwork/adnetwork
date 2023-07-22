@@ -2,6 +2,8 @@
 
 ![Advertising Network Diagram](link_to_graph_diagram.png)
 
+[Slides presentation](https://docs.google.com/presentation/d/1f45JjelZp2ldz2nsQdrBUq3VKB1Nlqr8tpfnOB8LZvU/edit?usp=sharing)
+
 ## Introduction
 
 In today's digital landscape, massive online services have become central hubs for advertising, which often results in the aggregation and centralization of customer data. This raises concerns about data privacy and security. To address this issue, our Web 3 Advertising Network aims to revolutionize the advertising industry by leveraging decentralized technologies and open protocols to provide a more transparent, secure, and privacy-focused advertising ecosystem.
