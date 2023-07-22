@@ -1,0 +1,12 @@
+{
+  "name": "zk-ads",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.1.13",
+    "ethers": "^6.6.4",
+    "truffle": "^5.11.0",
+    "truffle-hdwallet-provider": "^1.0.17"
+  }
+}

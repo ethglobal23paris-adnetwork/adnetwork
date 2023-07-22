@@ -1,0 +1,631 @@
+{
+  "contractName": "AdInteractionAggregator",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "adId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isUpvote",
+          "type": "bool"
+        }
+      ],
+      "name": "AdInteraction",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "adId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isUpvote",
+          "type": "bool"
+        }
+      ],
+      "name": "aggregate_and_submit_ad_interactions",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"adId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isUpvote\",\"type\":\"bool\"}],\"name\":\"AdInteraction\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"adId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isUpvote\",\"type\":\"bool\"}],\"name\":\"aggregate_and_submit_ad_interactions\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/AdInteractionAggregator.sol\":\"AdInteractionAggregator\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/AdInteractionAggregator.sol\":{\"keccak256\":\"0xb5086f3a951491833f335d25d78c97c87033022f346189e4cbb044e79a904247\",\"urls\":[\"bzz-raw://afee6a4f08af90d17eaf278410d091530b3a16428947f56144fbafb6cf3ea087\",\"dweb:/ipfs/QmYkeR4n7TMg4EnqsewTT1tJZLCzKy67NdQwxpMnaW2xCM\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b5060d98061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c806302fe845514602d575b600080fd5b606260048036036040811015604157600080fd5b81019080803590602001909291908035151590602001909291905050506064565b005b817f149a404940b0badcc1fa712a06fe99cae8f70afafdce089ccc203711658523c782604051808215151515815260200191505060405180910390a2505056fea265627a7a723158200e41ec8b157b4064347d74bc506afc286407b340664eea3f5bb7bd8eed5abf0564736f6c63430005100032",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060285760003560e01c806302fe845514602d575b600080fd5b606260048036036040811015604157600080fd5b81019080803590602001909291908035151590602001909291905050506064565b005b817f149a404940b0badcc1fa712a06fe99cae8f70afafdce089ccc203711658523c782604051808215151515815260200191505060405180910390a2505056fea265627a7a723158200e41ec8b157b4064347d74bc506afc286407b340664eea3f5bb7bd8eed5abf0564736f6c63430005100032",
+  "sourceMap": "57:484:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;57:484:0;;;;;;;",
+  "deployedSourceMap": "57:484:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;57:484:0;;;;;;;;;;;;;;;;;;;253:286;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;253:286:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;517:4;503:29;523:8;503:29;;;;;;;;;;;;;;;;;;;;;;253:286;;:::o",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.5.0;\n\ncontract AdInteractionAggregator {\n    // Event to track ad interactions\n    event AdInteraction(uint256 indexed adId, bool isUpvote);\n\n    // Function to aggregate and submit ad interactions\n    function aggregate_and_submit_ad_interactions(\n        uint256 adId,\n        bool isUpvote\n    ) external {\n        // Perform aggregation of ad interactions here\n        // For example, you can emit an event to track the ad interaction\n        emit AdInteraction(adId, isUpvote);\n    }\n}\n",
+  "sourcePath": "/Users/jason/adnetwork/zk-ads/contracts/AdInteractionAggregator.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/AdInteractionAggregator.sol",
+    "exportedSymbols": {
+      "AdInteractionAggregator": [
+        21
+      ]
+    },
+    "id": 22,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:23:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 21,
+        "linearizedBaseContracts": [
+          21
+        ],
+        "name": "AdInteractionAggregator",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 7,
+            "name": "AdInteraction",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 6,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3,
+                  "indexed": true,
+                  "name": "adId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7,
+                  "src": "154:20:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 2,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "154:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5,
+                  "indexed": false,
+                  "name": "isUpvote",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 7,
+                  "src": "176:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "176:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "153:37:0"
+            },
+            "src": "134:57:0"
+          },
+          {
+            "body": {
+              "id": 19,
+              "nodeType": "Block",
+              "src": "359:180:0",
+              "statements": [
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 15,
+                        "name": "adId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 9,
+                        "src": "517:4:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 16,
+                        "name": "isUpvote",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 11,
+                        "src": "523:8:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      ],
+                      "id": 14,
+                      "name": "AdInteraction",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 7,
+                      "src": "503:13:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_uint256_$_t_bool_$returns$__$",
+                        "typeString": "function (uint256,bool)"
+                      }
+                    },
+                    "id": 17,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "503:29:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 18,
+                  "nodeType": "EmitStatement",
+                  "src": "498:34:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 20,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "aggregate_and_submit_ad_interactions",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9,
+                  "name": "adId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20,
+                  "src": "308:12:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 8,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "308:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11,
+                  "name": "isUpvote",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20,
+                  "src": "330:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 10,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "330:4:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "298:51:0"
+            },
+            "returnParameters": {
+              "id": 13,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "359:0:0"
+            },
+            "scope": 21,
+            "src": "253:286:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 22,
+        "src": "57:484:0"
+      }
+    ],
+    "src": "32:510:0"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "project:/contracts/AdInteractionAggregator.sol",
+      "exportedSymbols": {
+        "AdInteractionAggregator": [
+          21
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.5",
+            ".0"
+          ]
+        },
+        "id": 1,
+        "name": "PragmaDirective",
+        "src": "32:23:0"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            21
+          ],
+          "name": "AdInteractionAggregator",
+          "scope": 22
+        },
+        "children": [
+          {
+            "attributes": {
+              "anonymous": false,
+              "documentation": null,
+              "name": "AdInteraction"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": true,
+                      "name": "adId",
+                      "scope": 7,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 2,
+                        "name": "ElementaryTypeName",
+                        "src": "154:7:0"
+                      }
+                    ],
+                    "id": 3,
+                    "name": "VariableDeclaration",
+                    "src": "154:20:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "indexed": false,
+                      "name": "isUpvote",
+                      "scope": 7,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 4,
+                        "name": "ElementaryTypeName",
+                        "src": "176:4:0"
+                      }
+                    ],
+                    "id": 5,
+                    "name": "VariableDeclaration",
+                    "src": "176:13:0"
+                  }
+                ],
+                "id": 6,
+                "name": "ParameterList",
+                "src": "153:37:0"
+              }
+            ],
+            "id": 7,
+            "name": "EventDefinition",
+            "src": "134:57:0"
+          },
+          {
+            "attributes": {
+              "documentation": null,
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "aggregate_and_submit_ad_interactions",
+              "scope": 21,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "adId",
+                      "scope": 20,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 8,
+                        "name": "ElementaryTypeName",
+                        "src": "308:7:0"
+                      }
+                    ],
+                    "id": 9,
+                    "name": "VariableDeclaration",
+                    "src": "308:12:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "isUpvote",
+                      "scope": 20,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 10,
+                        "name": "ElementaryTypeName",
+                        "src": "330:4:0"
+                      }
+                    ],
+                    "id": 11,
+                    "name": "VariableDeclaration",
+                    "src": "330:13:0"
+                  }
+                ],
+                "id": 12,
+                "name": "ParameterList",
+                "src": "298:51:0"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 13,
+                "name": "ParameterList",
+                "src": "359:0:0"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                }
+                              ],
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 7,
+                              "type": "function (uint256,bool)",
+                              "value": "AdInteraction"
+                            },
+                            "id": 14,
+                            "name": "Identifier",
+                            "src": "503:13:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 9,
+                              "type": "uint256",
+                              "value": "adId"
+                            },
+                            "id": 15,
+                            "name": "Identifier",
+                            "src": "517:4:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 11,
+                              "type": "bool",
+                              "value": "isUpvote"
+                            },
+                            "id": 16,
+                            "name": "Identifier",
+                            "src": "523:8:0"
+                          }
+                        ],
+                        "id": 17,
+                        "name": "FunctionCall",
+                        "src": "503:29:0"
+                      }
+                    ],
+                    "id": 18,
+                    "name": "EmitStatement",
+                    "src": "498:34:0"
+                  }
+                ],
+                "id": 19,
+                "name": "Block",
+                "src": "359:180:0"
+              }
+            ],
+            "id": 20,
+            "name": "FunctionDefinition",
+            "src": "253:286:0"
+          }
+        ],
+        "id": 21,
+        "name": "ContractDefinition",
+        "src": "57:484:0"
+      }
+    ],
+    "id": 22,
+    "name": "SourceUnit",
+    "src": "32:510:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.14",
+  "updatedAt": "2023-07-22T11:32:01.977Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
