@@ -51,11 +51,11 @@ const Dashboard = () => {
 
           <div style={{ padding: '2em' }}>
               <h2>List of all the ads, view count and zk rollups counter.</h2>
+              <h4>Thumb up or down and the counter change.</h4>
               <AdsList />
           </div>
 
           <div style={{ padding: '2em' }}>
-              <h2>Example ad card, click refresh to see the counter increase and get a new ad.</h2>
               <AdCardVote onRatingChange={handleRatingChange} />
               <AdDialog open={open} onClose={handleClose}  />
               <AdSnackbar open={toastOpen} onClose={handleToastClose} />
