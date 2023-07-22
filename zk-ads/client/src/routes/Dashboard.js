@@ -58,10 +58,10 @@ const Dashboard = () => {
                         />
                         <Box>
                             <Button onClick={() => handleRatingChange("up")}>
-                                <ThumbUp  style={{ color: 'green' }} />
+                                <ThumbUp style={{color: "green"}} />
                             </Button>
                             <Button onClick={() => handleRatingChange("down")}>
-                                <ThumbDown  style={{ color: 'red' }} />
+                                <ThumbDown style={{color: "red"}} />
                             </Button>
                         </Box>
                         <Chip
@@ -73,6 +73,7 @@ const Dashboard = () => {
                         />
                         <Chip
                             icon={<InfoIcon />}
+                            
                             size="small"
                             color="primary"
                             clickable
