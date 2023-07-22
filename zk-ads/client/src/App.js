@@ -4,7 +4,7 @@ import Login from './routes/Login';
 import Dashboard from './routes/Dashboard';
 
 const App = () => {
-  if (typeof window.ethereum == 'object') {
+  // if (typeof window.ethereum == 'object') {
     return (
       <BrowserRouter>
         <Routes>
@@ -15,11 +15,11 @@ const App = () => {
       </BrowserRouter>
 
     );
-  } else {
-    return (
-      <div>Download Metamask to proceed</div>
-    )
-  }
+  // } else {
+  //   return (
+  //     <div>Download Metamask to proceed</div>
+  //   )
+  // }
 
 }
 

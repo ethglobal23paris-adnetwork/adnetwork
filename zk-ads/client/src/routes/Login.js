@@ -3,20 +3,18 @@ import { Button, Paper, Typography, Avatar, Box, AppBar, Toolbar } from '@mui/ma
 import { useNavigate } from 'react-router-dom';
 import avatar from '../assets/MetaMask.png'
 import Ethereum from '../helpers/Ethereum';
+import { SpaRounded } from '@mui/icons-material';
 
 const Login = () => {
     const [state, setState] = useState([]);
     let navigate = useNavigate();
 
-    useEffect(() => {
-        async function authenticate() {
-            if (localStorage.getItem('connected') === 'true' && !(Ethereum.signer && Ethereum.provider && Ethereum.accounts.length > 0)) {
-                await Ethereum.connect();
-                if (Ethereum.accounts.length > 0) navigate('/dashboard')
-            }
+    async function authenticate() {
+        if (localStorage.getItem('connected') === 'true' && !(Ethereum.signer && Ethereum.provider && Ethereum.accounts.length > 0)) {
+            await Ethereum.connect();
+            if (Ethereum.accounts.length > 0) navigate('/dashboard')
         }
-        authenticate()
-    });
+    }
 
 
 
@@ -44,10 +42,7 @@ const Login = () => {
                     color: '#0099ff', marginBottom: '10%',
                     marginRight: '15%',
                     marginLeft: '15%', marginTop: '10%',
-                }} onClick={async () => {
-                    await Ethereum.connect();
-                    if (localStorage.getItem('connected')==='true') navigate('/marketplace')
-                }}>
+                }} onClick={async () => await authenticate()}>
                     <Avatar alt="Metamask" src={avatar} style={{ marginRight: 10 }} />
                     <Typography style={{ color: '#ffffff' }}>Login with Metamask</Typography>
                 </Button>

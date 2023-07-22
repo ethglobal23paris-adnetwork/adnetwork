@@ -1,5 +1,25 @@
-import { ethers } from "ethers";
+import { MetaMaskSDK } from '@metamask/sdk';
+import { ethers } from 'ethers';
 
+const options = {
+    injectProvider: true,
+  };
+
+const mmsdk = new MetaMaskSDK({
+    useDeeplink: false,
+    autoConnect: {
+        enable: true
+    },
+    dappMetadata: {
+        name: "whatever",
+    },
+    logging: {
+        developerMode: true,
+    },
+    storage: {
+        enabled: true
+    }
+});
 
 
 const Ethereum = {
@@ -14,12 +34,6 @@ const Ethereum = {
     },
     getAccounts: async () => {
         Ethereum.accounts = await Ethereum.provider.send("eth_requestAccounts", [])
-    },
-    getBalance: async address => await ethers.utils.formatEther(await Ethereum.provider.getBalance(address)),
-    signHash: async (address) => {
-        const hash = ethers.utils.keccak256(address);
-        const hashArray = ethers.utils.arrayify(hash)
-        return await Ethereum.signer.signMessage(hashArray)
     },
 }
 
