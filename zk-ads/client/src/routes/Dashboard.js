@@ -33,7 +33,9 @@ const Dashboard = () => {
     const handleRatingChange = async (newValue) => {
       setRating(newValue);
       setToastOpen(true);
-      const msg = {'from': wallet.address, 'rating': newValue};
+      const msg = {'from': wallet.address,
+                  'ad_id': 'placeholder',
+                  'rating': newValue};
       const message = await conversation.send(JSON.stringify(msg));
       console.log(message);
     };
