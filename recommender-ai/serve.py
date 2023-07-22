@@ -1,4 +1,4 @@
-from ai import foobar
+from ai import save_rating, do_magic_ranking
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -13,20 +13,20 @@ cors_app = CORSMiddleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 def read_root():
     return {"Hack": "ETHGlobal Paris 2023"}
 
-
 @app.post("/")
 async def relay(text):
     try:
-        output = foobar(text)
-        return output
+        return {"ok": save_rating(text)}
+
     except Exception:
         return {"oops": "something went wrong"}
 
-
+@app.get("/ranking")
+async def ranking():
+    return {"ad_id": do_magic_ranking()}
 
 app = cors_app
