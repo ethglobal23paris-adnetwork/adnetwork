@@ -1,26 +1,26 @@
-import React, { Suspense } from "react";
-import './App.css';
-import CircularLoaderUI from "./ui/CircularLoaderUI.jsx";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './routes/Login';
+import Dashboard from './routes/Dashboard';
 
-const HomeAppBarLayout = React.lazy(
-  () => import("./ui/HomeAppBarLayout.jsx")
-);
-const Home = React.lazy(() => import("./ui/Home.jsx"));
-const NotFound = React.lazy(() => import("./ui/NotFound.jsx"));
-
-function App() {
-  return (
-    <Suspense fallback={<div><CircularLoaderUI /></div>}>
-      <Router>
-        <HomeAppBarLayout />
+const App = () => {
+  if (typeof window.ethereum == 'object') {
+    return (
+      <BrowserRouter>
         <Routes>
-          <Route exact path={"/"} element={<Home />} />
-          <Route exact path={"*"} element={<NotFound/>}/>
+          <Route path='/login' element={<Login />} exact />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='*' element={<Login />} />
         </Routes>
-      </Router>
-    </Suspense>
-  );
+      </BrowserRouter>
+
+    );
+  } else {
+    return (
+      <div>Download Metamask to proceed</div>
+    )
+  }
+
 }
 
 export default App;
