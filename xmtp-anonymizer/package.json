@@ -1,0 +1,9 @@
+{
+  "name": "xmtp-anonymizer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@xmtp/bot-starter": "^1.1.4"
+  }
+}
