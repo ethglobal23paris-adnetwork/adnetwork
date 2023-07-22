@@ -2,7 +2,7 @@
 import "../components/polyfills";
 import React, { useState } from 'react';
 
-import { Grid } from '@mui/material';
+import { Grid, Box, AppBar, Toolbar } from '@mui/material';
 import AdCard from '../components/AdCard';
 import AdDialog from '../components/AdDialog';
 import AdSnackbar from '../components/AdSnackbar';
@@ -42,6 +42,14 @@ const Dashboard = () => {
     };
 
   return (
+    <Box sx={{ flexGrow: 1 }}>
+    <AppBar position="static" color='inherit'>
+        <Toolbar variant="dense">
+
+            {/* <img alt="Zymbit Logo" style={{ height: 50 }} src={require("")} /> */}
+        </Toolbar>
+
+    </AppBar>
     <Grid
       container
       direction="column"
@@ -61,6 +69,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
     </Grid>
+    </Box>
   );
 };
 
