@@ -26,7 +26,6 @@ const Dashboard = () => {
     const [rating, setRating] = useState(null);
     const [toastOpen, setToastOpen] = useState(false);
 
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -34,9 +33,9 @@ const Dashboard = () => {
     const handleRatingChange = async (newValue) => {
       setRating(newValue);
       setToastOpen(true);
-      const msg = `I rate this ad ${newValue}`;
-      const message = await conversation.send(msg);
-      console.log('sent message:', message);
+      const msg = {'from': wallet.address, 'rating': newValue};
+      const message = await conversation.send(JSON.stringify(msg));
+      console.log(message);
     };
 
     const handleToastClose = () => {
@@ -50,7 +49,6 @@ const Dashboard = () => {
       direction="column"
       style={{ minHeight: '100vh' }}
     >
-      {/* ... AppBar code as before ... */}
       <Grid
         container
         direction="row"

@@ -1,2 +1,7 @@
-def foobar(text:str):
-    return {"foobar": text}
+import json
+
+
+def foobar(text):
+    obj = json.loads(text)
+    print(obj)
+    return {"ok": obj}

@@ -20,7 +20,7 @@ def read_root():
 
 
 @app.post("/")
-async def relay(text: str):
+async def relay(text):
     output = foobar(text)
     return output
 
