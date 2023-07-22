@@ -1,49 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import { List, ListItem, ListItemText } from '@mui/material';
-
-// just to fake the ads
-const ads = [
-    {
-        ad_id: 1,
-        viewed: 12,
-    },
-    {
-        ad_id: 2,
-        viewed: 13,
-    },
-]
-
+import { List, ListItem, ListItemText, Button } from '@mui/material';
 
 const AdsList = () => {
-    const [ads, setAds] = useState([]);
+  const [ads, setAds] = useState([]);
 
-    useEffect(() => {
-      // Fetch ads from the backend
-      const fetchAds = async () => {
-        try {
-          const response = await fetch('http://localhost:8000/ads');
-          if (!response.ok) {
-            throw new Error('Failed to fetch ads.');
-          }
-          const data = await response.json();
-          setAds(data.ads);
-        } catch (error) {
-          console.error('Error fetching ads:', error);
-        }
-      };
+  const fetchAds = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/ads');
+      if (!response.ok) {
+        throw new Error('Failed to fetch ads.');
+      }
+      const data = await response.json();
+      console.log('ads data', data);
+      setAds(data);
+    } catch (error) {
+      console.error('Error fetching ads:', error);
+    }
+  };
 
-      fetchAds();
-    }, []);
+  useEffect(() => {
+    fetchAds();
+  }, []);
 
-    return (
+  const handleRefresh = () => {
+    fetchAds();
+  };
+
+  return (
+    <>
+      <Button variant="contained" onClick={handleRefresh}>
+        Refresh
+      </Button>
       <List>
-        {ads?.map((ad) => (
+        {ads.map((ad) => (
           <ListItem key={ad.ad_id}>
-            <ListItemText primary={`Ad ID: ${ad.ad_id}, Viewed: ${ad.viewed}`} />
+            <ListItemText primary={ad.ad_id} secondary={ad.keywords} />
           </ListItem>
         ))}
       </List>
-    );
-  };
+    </>
+  );
+};
 
 export default AdsList;

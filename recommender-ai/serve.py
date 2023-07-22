@@ -32,7 +32,6 @@ async def ranking():
 
 @app.get("/ads")
 async def all_the_ads():
-    # return ad_id and view_count
     ads = get_all_ads(limit=100)
     return ads 
 
