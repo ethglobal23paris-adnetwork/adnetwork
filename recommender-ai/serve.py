@@ -1,4 +1,4 @@
-import requests
+from ads import get_all_ads
 from ai import save_rating, do_magic_ranking
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,6 +31,12 @@ async def relay(text):
 @app.get("/ad")
 async def ranking():
     return {"ad_id": do_magic_ranking()}
+
+@app.get("/ads")
+async def all_the_ads():
+    # return ad_id and view_count
+    ads = get_all_ads(limit=100)
+    return ads 
 
 # This is the endpoint that will be called by the ad server, but it's
 # better to upload from the frontend directly
