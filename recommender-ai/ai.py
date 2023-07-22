@@ -20,6 +20,7 @@ def create_table():
 
 # Function to save data in the SQLite database
 def save_to_database(sender, ad_id, rating, timestamp):
+    print(f"Saving data to database: {sender}, {ad_id}, {rating}, {timestamp}")
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
     cursor.execute("""

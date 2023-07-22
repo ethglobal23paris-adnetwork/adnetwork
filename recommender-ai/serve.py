@@ -21,8 +21,11 @@ def read_root():
 
 @app.post("/")
 async def relay(text):
-    output = foobar(text)
-    return output
+    try:
+        output = foobar(text)
+        return output
+    except Exception:
+        return {"oops": "something went wrong"}
 
 
 

@@ -8,18 +8,7 @@ import AdDialog from '../components/AdDialog';
 import AdSnackbar from '../components/AdSnackbar';
 
 import { Client } from '@xmtp/xmtp-js';
-import { Wallet } from 'ethers';
-
-const wallet = Wallet.createRandom()
-
-const xmtp = await Client.create(wallet, { env: "dev" })
-console.log("Client created", xmtp);
-
-
-const conversation = await xmtp.conversations.newConversation(
-  '0x67AD341F23913FC3c9041F1850dE466893531053'
-)
-
+import { providers } from 'ethers';
 
 const Dashboard = () => {
     const [open, setOpen] = useState(false);
@@ -33,17 +22,24 @@ const Dashboard = () => {
     const handleRatingChange = async (newValue) => {
       setRating(newValue);
       setToastOpen(true);
-      const msg = {'from': wallet.address,
+      const provider = new providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const xmtp = await Client.create(signer, { env: "dev" })
+      console.log("Client created", xmtp);
+      const conversation = await xmtp.conversations.newConversation(
+        '0x67AD341F23913FC3c9041F1850dE466893531053'
+      )
+      
+      const msg = {'from': await signer.getAddress(),
                   'ad_id': 'placeholder',
                   'rating': newValue};
       const message = await conversation.send(JSON.stringify(msg));
-      console.log(message);
+      console.log('sent', message);
     };
 
     const handleToastClose = () => {
         setToastOpen(false);
     };
-
 
   return (
     <Grid
