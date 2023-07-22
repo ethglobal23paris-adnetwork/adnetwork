@@ -3,10 +3,11 @@ import { Box, Button, Card, Chip, Typography } from "@mui/material";
 import { FlashOn, ThumbUp, ThumbDown } from "@mui/icons-material";
 import AdImage from "./AdCardImage";
 import moment from "moment";
+import { handleRatingChange } from "../helpers/xmtp";
 
 const AdCardVote = ({ ad }) => {
   const onRatingChange = async (newValue) => {
-    console.log("rating changed", newValue);
+    handleRatingChange(ad.ad_id, newValue);
   };
 
   return (
@@ -60,7 +61,7 @@ const AdCardVote = ({ ad }) => {
         <p>Uploaded {moment(ad.timestamp).fromNow()}</p>
         <Chip
           icon={<FlashOn />}
-          label="Powered by ZAP"
+          label="Powered by ZAP⚡️"
           size="small"
           color="info"
           sx={{ position: "relative", margin: "1em" }}
