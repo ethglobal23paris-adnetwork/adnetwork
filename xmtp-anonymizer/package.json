@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "relay": "node relay.js",
+    "create_wallet": "node create_wallet.js"
+  },
   "dependencies": {
-    "@xmtp/bot-starter": "^1.1.4"
+    "@xmtp/bot-starter": "^1.1.4",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.6.4"
   }
 }
