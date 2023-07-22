@@ -85,7 +85,7 @@ const AdsUpload = () => {
     <List>
       <ListItem>
         <TextField
-          label="Wallet ID (pre-populated)"
+          label="MetaMask Wallet Address (pre-populated)"
           fullWidth
           value={wallet_id}
           disabled
@@ -93,7 +93,7 @@ const AdsUpload = () => {
       </ListItem>
       <ListItem>
         <TextField
-          label="Keywords"
+          label="AI Recommendation Keywords (separate with commas) e.g. 'car, insurance'"
           fullWidth
           value={keywords}
           onChange={handleKeywordsChange}

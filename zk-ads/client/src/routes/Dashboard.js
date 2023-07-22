@@ -3,7 +3,7 @@ import "../components/polyfills";
 import React, { useState } from 'react';
 
 import { Button, Grid } from '@mui/material';
-import AdCard from '../components/AdCard';
+import AdCardVote from '../components/AdCardVote';
 import AdDialog from '../components/AdDialog';
 import AdSnackbar from '../components/AdSnackbar';
 import AdsList from '../components/AdsList';
@@ -56,7 +56,7 @@ const Dashboard = () => {
 
           <div style={{ padding: '2em' }}>
               <h2>Example ad card, click refresh to see the counter increase and get a new ad.</h2>
-              <AdCard onRatingChange={handleRatingChange} />
+              <AdCardVote onRatingChange={handleRatingChange} />
               <AdDialog open={open} onClose={handleClose}  />
               <AdSnackbar open={toastOpen} onClose={handleToastClose} />
               <Button variant="contained" onClick={() => setOpen(true)}>

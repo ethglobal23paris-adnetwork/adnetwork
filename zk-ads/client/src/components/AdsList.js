@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { List, ListItem, ListItemText, Button } from '@mui/material';
+import { List, ListItem, Button } from '@mui/material';
+import AdCardItem from './AdCardItem';
 
 const AdsList = () => {
   const [ads, setAds] = useState([]);
@@ -34,7 +35,7 @@ const AdsList = () => {
       <List>
         {ads.map((ad) => (
           <ListItem key={ad.ad_id}>
-            <ListItemText primary={ad.ad_id} secondary={ad.keywords} />
+            <AdCardItem ad={ad} />
           </ListItem>
         ))}
       </List>
