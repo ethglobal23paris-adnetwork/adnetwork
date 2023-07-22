@@ -1,8 +1,6 @@
-from ads import get_all_ads
-from ai import save_rating, do_magic_ranking
-from fastapi import FastAPI, File, UploadFile
+from ai import save_rating, do_magic_ranking, get_all_ads, save_cid, UploadRequest
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import w3storage
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
@@ -38,14 +36,9 @@ async def all_the_ads():
     ads = get_all_ads(limit=100)
     return ads 
 
-# This is the endpoint that will be called by the ad server, but it's
-# better to upload from the frontend directly
-# if that is done, this can be deleted.
 @app.post("/upload")
-async def upload(file: UploadFile = File(...)):
-    w3 = w3storage.API(token=WEB3_STORAGE_API_TOKEN)
-    cid = w3.post_upload(file.file)
-    # add the record to the database
-    return {"cid": cid}
+async def upload(params: UploadRequest):
+    save_cid(params)
+    return {"uploaded": params}
 
 app = cors_app

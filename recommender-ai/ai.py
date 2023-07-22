@@ -3,10 +3,13 @@ import json
 import sqlite3
 import random
 
+from pydantic import BaseModel
+
 # Function to create the SQLite database and table (called once)
 def create_table():
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
+
     # Create a table to store the ratings
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS ad_ratings (
@@ -18,16 +21,21 @@ def create_table():
         )
     """)
     conn.commit()
+
     # Create a table to store the ads and ppc
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS ads (
-            id INTEGER PRIMARY KEY,
-            ad_id INTEGER,
-            ppc INTEGER
+            ad_id INTEGER PRIMARY KEY,
+            wallet_id TEXT,
+            cid TEXT,
+            keywords TEXT,
+            ppc INTEGER,
+            timestamp DATETIME
         )
     """)
     conn.commit()
     conn.close()
+
 
 # Function to save data in the SQLite database
 def save_to_database(sender, ad_id, rating, timestamp):
@@ -99,5 +107,34 @@ def do_magic_ranking():
     return random.choice([get_most_profitable_ad(), get_highest_rated_ad()])
 
 
+
+def get_all_ads(limit: int = 10):
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT ad_id, ppc
+        FROM ads
+        ORDER BY ppc DESC
+        LIMIT ?
+    """, (limit,))
+    ads = cursor.fetchall()
+    conn.close()
+    return ads
+
+class UploadRequest(BaseModel):
+    wallet_id: str
+    keywords: str
+    cid: str
+
+def save_cid(params: UploadRequest):
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO ads (wallet_id, keywords, cid, ppc, timestamp)
+        VALUES (?, ?, ?, ?, ?)
+    """, (params.wallet_id, params.keywords, params.cid, 0, datetime.datetime.now()))
+    conn.commit()
+
 # Call the function to create the table (called once)
 create_table()
+
