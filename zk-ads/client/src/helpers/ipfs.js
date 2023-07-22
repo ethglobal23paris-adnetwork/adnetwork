@@ -7,9 +7,7 @@ function makeStorageClient () {
 }
 
 export async function ipfs_retrieve (cid) {
-    console.log(`Retrieving ${cid}`)
     const client = makeStorageClient()
     const res = await client.get(cid)
-    console.log(`Got a response for ${cid}: ${JSON.stringify(res)}`)
     return res
 }

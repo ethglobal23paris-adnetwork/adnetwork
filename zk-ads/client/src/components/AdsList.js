@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, Button } from '@mui/material';
-import AdCardItem from './AdCardItem';
+import AdCardVote from './AdCardVote';
 
 const AdsList = () => {
   const [ads, setAds] = useState([]);
@@ -12,7 +12,6 @@ const AdsList = () => {
         throw new Error('Failed to fetch ads.');
       }
       const data = await response.json();
-      console.log('ads data', data);
       setAds(data);
     } catch (error) {
       console.error('Error fetching ads:', error);
@@ -35,7 +34,7 @@ const AdsList = () => {
       <List>
         {ads.map((ad) => (
           <ListItem key={ad.ad_id}>
-            <AdCardItem ad={ad} />
+            <AdCardVote ad={ad} />
           </ListItem>
         ))}
       </List>
