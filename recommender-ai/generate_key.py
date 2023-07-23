@@ -1,12 +1,7 @@
 from web3 import Web3
+from env import infura_HTTPProvider
 
-# Connect to an Ethereum node or provider
-# Replace 'http://your_ethereum_node_url' with the URL of your Ethereum node or provider.
-w3 = Web3(
-    Web3.HTTPProvider(
-        "https://linea-goerli.infura.io/v3/51c64d09ec504c32bc832829d8211891"
-    )
-)
+w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))
 
 
 def generate_ethereum_account():

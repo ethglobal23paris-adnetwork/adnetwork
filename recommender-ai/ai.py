@@ -138,7 +138,7 @@ def get_most_relevant_ad(comma_separated_string):
     # Extract individual keywords from the comma-separated string
     keywords_list = comma_separated_string.split(",")
 
-    # Build the WHERE clause with the appropriate number of placeholders for the keywords
+    # Build the WHERE clause
     where_clause = " OR ".join(["keywords LIKE ?"] * len(keywords_list))
 
     # Get the ad_id with the highest relevance to the given keywords
