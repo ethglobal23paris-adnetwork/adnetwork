@@ -1,6 +1,6 @@
 import datetime
-
-from w3b import create_ad, clicked
+from env import wallet_address
+from w3b import create_ad, clicked, review_ad
 from ai import (
     save_rating,
     magic_ranking_ad_id,
@@ -31,9 +31,13 @@ def read_root():
 
 
 @app.post("/")
-async def relay(text):
+async def handle_xmtp_relay(msg):
     try:
-        return {"ok": save_rating(text)}
+        ad_id = save_rating(msg)
+        tx_hash = review_ad(
+            ad_id, 1, "ipfs_cid", msg, wallet_address
+        )  # todo: get world_id from msg
+        return {"ad_id": ad_id, "msg": msg, "status": "ok", "tx_hash": tx_hash}
 
     except Exception:
         return {"oops": "something went wrong"}
@@ -58,7 +62,7 @@ async def ad_clicked(ad_id: int, world_id: int):
     if check_if_ad_exists(ad_id):
         return {"error": "ad_id does not exist"}
     timestamp: int = int(datetime.now().timestamp())
-    tx_hash = clicked(ad_id, timestamp, world_id, sender_address)
+    tx_hash = clicked(ad_id, timestamp, world_id, wallet_address)
     return {"event": "ad_clicked", "ad_id": ad_id, "tx_hash": tx_hash}
 
 

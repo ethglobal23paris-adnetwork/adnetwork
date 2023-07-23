@@ -5,6 +5,8 @@ import random
 
 from pydantic import BaseModel
 
+SQLITE_DB = "data.db"
+
 
 class Ad(BaseModel):
     ad_id: int
@@ -27,7 +29,7 @@ class AdRating(BaseModel):
 
 # Function to create the SQLite database and table (called once)
 def create_table():
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
 
     # Create a table to store the ratings
@@ -62,7 +64,7 @@ def create_table():
 
 
 # Function to save the rating to database
-def save_rating(text):
+def save_rating(text) -> int:
     obj = json.loads(text)
     sender = obj["from"]
     ad_id = obj["ad_id"]
@@ -70,7 +72,7 @@ def save_rating(text):
     is_upvote = rating == "up"
     timestamp = datetime.datetime.now()
     print(f"Saving data to database: {sender}, {ad_id}, {is_upvote}, {timestamp}")
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -80,11 +82,12 @@ def save_rating(text):
         (sender, ad_id, is_upvote, timestamp),
     )
     conn.commit()
-    return {"ok": obj}
+    ad_id = cursor.lastrowid
+    return ad_id
 
 
 def get_highest_rated_ad() -> Ad:
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
 
     # Get the ad_id with the highest rating
@@ -109,7 +112,7 @@ def get_highest_rated_ad() -> Ad:
 
 
 def get_most_paid_ad():
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
 
     # Get the ad_id with the highest PPC
@@ -132,7 +135,7 @@ def get_most_paid_ad():
 
 
 def get_most_relevant_ad(comma_separated_string):
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
 
     # Extract individual keywords from the comma-separated string
@@ -174,7 +177,7 @@ def get_most_relevant_ad(comma_separated_string):
 
 
 def get_ad_by_id_with_up_downs(ad_id: int) -> Ad:
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -229,7 +232,7 @@ def magic_ranking_ad_id(keywords: str = None):
 
 
 def check_if_ad_exists(ad_id: int) -> bool:
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -244,7 +247,7 @@ def check_if_ad_exists(ad_id: int) -> bool:
 
 
 def get_all_ads(limit: int = 10) -> list[Ad]:
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -269,7 +272,7 @@ class UploadRequest(BaseModel):
 
 
 def save_cid(params: UploadRequest) -> int:
-    conn = sqlite3.connect("data.db")
+    conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
     cursor.execute(
         """

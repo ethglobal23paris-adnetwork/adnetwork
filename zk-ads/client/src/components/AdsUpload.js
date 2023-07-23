@@ -8,11 +8,15 @@ import {
   Button,
 } from "@mui/material";
 import { Web3Storage } from "web3.storage";
+import { BACKEND_URL } from "../helpers/config";
+import { redirect } from "react-router-dom";
+import Ethereum from "../helpers/Ethereum";
 
 const AdsUpload = () => {
   const [wallet_id, setWalletId] = useState("");
   const [keywords, setKeywords] = useState("");
   const [ppc, setPPC] = useState("");
+  const [redirect_url, setRedirectUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const YOUR_WEB3_STORAGE_API_TOKEN =
@@ -44,6 +48,10 @@ const AdsUpload = () => {
     setPPC(event.target.value);
   };
 
+  const handleRedirectChange = (event) => {
+    setRedirectUrl(event.target.value);
+  };
+
   const handleUpload = async () => {
     if (selectedFile) {
       if (
@@ -59,13 +67,14 @@ const AdsUpload = () => {
           const cid = await client.put(data);
 
           // Send the walletId and keywords to the backend
-          const response = await fetch("http://localhost:8000/upload", {
+          const response = await fetch(`${BACKEND_URL}/upload`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               wallet_id: wallet_id,
+              redirect_url: redirect_url,
               keywords: keywords,
               ppc: ppc,
               cid: cid,
@@ -76,6 +85,7 @@ const AdsUpload = () => {
             setUploadStatus("Failed to upload file. Please try again later.");
           } else {
             setUploadStatus(`File uploaded successfully! CID: ${cid}`);
+            await Ethereum.genAd(wallet_id, cid, redirect_url, keywords)
           }
 
           // Handle successful upload
@@ -99,6 +109,13 @@ const AdsUpload = () => {
     <List>
       <ListItem>
         <Input type="file" accept="image/jpeg" onChange={handleFileChange} />
+      </ListItem>
+      <ListItem>
+        <TextField
+          label="Redirect URL"
+          value={redirect_url}
+          onChange={handleRedirectChange}
+        />
       </ListItem>
       <ListItem>
         <TextField
