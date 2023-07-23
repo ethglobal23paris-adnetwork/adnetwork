@@ -1,6 +1,6 @@
 # Web 3 Advertising Network (zk-ads)
 
-![Advertising Network Diagram](link_to_graph_diagram.png)
+![Logo](assets/zap.png)
 
 [Slides presentation](https://docs.google.com/presentation/d/1f45JjelZp2ldz2nsQdrBUq3VKB1Nlqr8tpfnOB8LZvU/edit?usp=sharing)
 
