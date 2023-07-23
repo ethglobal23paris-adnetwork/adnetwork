@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { Web3Storage } from "web3.storage";
+import { BACKEND_URL } from "../helpers/config";
 
 const AdsUpload = () => {
   const [wallet_id, setWalletId] = useState("");
@@ -59,7 +60,7 @@ const AdsUpload = () => {
           const cid = await client.put(data);
 
           // Send the walletId and keywords to the backend
-          const response = await fetch("http://localhost:8000/upload", {
+          const response = await fetch(`${BACKEND_URL}/upload`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

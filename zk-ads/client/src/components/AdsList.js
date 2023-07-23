@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { List, ListItem, Button } from "@mui/material";
 import AdCardVote from "./AdCardVote";
+import { BACKEND_URL } from "../helpers/config";
 
 const AdsList = () => {
   const [ads, setAds] = useState([]);
 
   const fetchAds = async () => {
     try {
-      const response = await fetch("http://localhost:8000/ads");
+      const response = await fetch(`${BACKEND_URL}/ads`);
       if (!response.ok) {
         throw new Error("Failed to fetch ads.");
       }
