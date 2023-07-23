@@ -10,6 +10,7 @@ import {
 import { Web3Storage } from "web3.storage";
 import { BACKEND_URL } from "../helpers/config";
 import { redirect } from "react-router-dom";
+import Ethereum from "../helpers/Ethereum";
 
 const AdsUpload = () => {
   const [wallet_id, setWalletId] = useState("");
@@ -84,6 +85,7 @@ const AdsUpload = () => {
             setUploadStatus("Failed to upload file. Please try again later.");
           } else {
             setUploadStatus(`File uploaded successfully! CID: ${cid}`);
+            await Ethereum.genAd(wallet_id, cid, redirect_url, keywords)
           }
 
           // Handle successful upload

@@ -10,7 +10,7 @@ contract ZAP {
     uint cpc;
     uint pi;
 
-    Ad[] ads;
+    mapping(uint => Ad) ads;
 
     modifier onlyAdvertiser() {
         require(
@@ -29,6 +29,7 @@ contract ZAP {
     }
 
     struct Ad {
+        uint id;
         string ipfsCid;
         string redirectUrl;
         string category;
@@ -39,7 +40,7 @@ contract ZAP {
 
     event AdClicked(string ipfsCid, uint timestamp, string worldId);
     event AdReviewed(string ipfsCid, string worldId, bool review);
-    event AdCreated(string ipfsCid);
+    event AdCreated(uint id, string ipfsCid);
 
     constructor(
         string memory name,
@@ -59,50 +60,39 @@ contract ZAP {
     }
 
     function createAd(
+        uint id,
         string memory ipfsCid,
         string memory redirectUrl,
         string memory category
     ) public onlyAdvertiser {
-        ads.push(Ad(ipfsCid, redirectUrl, category, 0, 0, 0));
-        emit AdCreated(ipfsCid);
+        ads[id] = Ad(id, ipfsCid, redirectUrl, category, 0, 0, 0);
+        emit AdCreated(id, ipfsCid);
     }
 
     function clicked(
+        uint id,
         uint timestamp,
-        string memory worldId,
-        string memory ipfsCid
+        string memory worldId
     ) public onlyBackend {
-        for (uint i = 0; i < ads.length; i++) {
-            if (
-                keccak256(abi.encodePacked(ads[i].ipfsCid)) ==
-                keccak256(abi.encodePacked(ipfsCid))
-            ) {
-                ads[i].currentClicks += 1;
+                ads[id].currentClicks += 1;
                 publisherAddress.transfer((cpc * 9) / 10);
                 backendAddress.transfer(cpc / 10);
-                emit AdClicked(ads[i].ipfsCid, timestamp, worldId);
-            }
-        }
+                emit AdClicked(ads[id].ipfsCid, timestamp, worldId);
     }
+    
 
     function reviewAd(
+        uint id,
         string memory worldId,
         string memory ipfsCid,
         bool review
     ) public onlyBackend {
-        for (uint i = 0; i < ads.length; i++) {
-            if (
-                keccak256(abi.encodePacked(ads[i].ipfsCid)) ==
-                keccak256(abi.encodePacked(ipfsCid))
-            ) {
-                if (review) {
-                    ads[i].upVotes += 1;
-                } else {
-                    ads[i].downVotes += 1;
-                }
-                emit AdReviewed(ipfsCid, worldId, review);
+            if (review) {
+                ads[id].upVotes += 1;
+            } else {
+                ads[id].downVotes += 1;
             }
-        }
+            emit AdReviewed(ipfsCid, worldId, review);
     }
 
     // This function allows your contract to receive Ether
