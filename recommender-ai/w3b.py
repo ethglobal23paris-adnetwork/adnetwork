@@ -4,11 +4,12 @@ from env import infura_HTTPProvider, dap_contract_address, private_key, wallet_a
 import json
 
 w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))
-unicorns = w3.eth.contract(address=dap_contract_address)
-
 
 # The contract's ABI (read from ABI.json)
-zap_abi = json.loads(open("ABI.json", "r").read())
+with open("ABI.json", "r") as f:
+    zap_abi = json.load(f)
+
+print("zap_abi", zap_abi)
 
 # The contract's address on the Ethereum network
 zap_contract_address = dap_contract_address
@@ -21,36 +22,39 @@ zap_contract = w3.eth.contract(address=zap_contract_address, abi=zap_abi)
 def clicked(ad_id, timestamp, world_id, sender_address):
     transaction = zap_contract.functions.clicked(
         ad_id, timestamp, world_id
-    ).buildTransaction(
+    ).build_transaction(
         {
             "from": sender_address,
             "gas": 2000000,  # Adjust the gas value as needed
-            "gasPrice": w3.toWei("50", "gwei"),  # Adjust the gas price as needed
+            "gasPrice": w3.to_wei("50", "gwei"),  # Adjust the gas price as needed
         }
     )
-    signed_transaction = w3.eth.account.signTransaction(
+    signed_transaction = w3.eth.account.sign_transaction(
         transaction, private_key=private_key
     )
-    tx_hash = w3.eth.sendRawTransaction(signed_transaction.rawTransaction)
+    tx_hash = w3.eth.send_raw_transaction(signed_transaction.raw_transaction)
     return tx_hash
 
 
 # Call the `reviewAd` function (state-changing operation, requires transaction)
 def review_ad(ad_id, world_id, ipfs_cid, review):
-    transaction = zap_contract.functions.reviewAd(
-        ad_id, world_id, ipfs_cid, review
-    ).buildTransaction(
+    bt = zap_contract.functions.reviewAd(ad_id, world_id, ipfs_cid, review)
+    nonce = w3.eth.get_transaction_count(wallet_address)
+
+    transaction = bt.build_transaction(
         {
             "from": wallet_address,
             "gas": 2000000,  # Adjust the gas value as needed
-            "gasPrice": w3.toWei("50", "gwei"),  # Adjust the gas price as needed
+            "gasPrice": w3.to_wei("50", "gwei"),  # Adjust the gas price as needed
+            "nonce": nonce,
         }
     )
-    signed_transaction = w3.eth.account.signTransaction(
-        transaction, private_key=private_key
+    signed_transaction = w3.eth.account.sign_transaction(
+        transaction,
+        private_key=private_key,
     )
-    tx_hash = w3.eth.sendRawTransaction(signed_transaction.rawTransaction)
-    return tx_hash
+    tx_hash = w3.eth.send_raw_transaction(signed_transaction.rawTransaction)
+    return str(tx_hash)
 
 
 def get_wallet_address(private_key):
