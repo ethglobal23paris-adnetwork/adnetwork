@@ -1,11 +1,19 @@
 import "../components/polyfills";
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Box, AppBar, Toolbar, Grid, Divider } from "@mui/material";
 import AdsList from "../components/AdsList";
 import AdsUpload from "../components/AdsUpload";
 import RobotAd from "../components/RobotAd";
+import { useNavigate } from "react-router-dom";
+import Ethereum from "../helpers/Ethereum";
 
 const Dashboard = () => {
+  let navigate = useNavigate();
+
+  useEffect(()=>{
+    Ethereum.connect()
+  }, [navigate])
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
