@@ -7,7 +7,6 @@ from ai import (
     get_all_ads,
     save_cid,
     UploadRequest,
-    check_if_ad_exists,
 )
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -61,13 +60,11 @@ async def all_the_ads():
 
 
 @app.post("/clicked")
-async def ad_clicked(ad_id: int, world_id: int):
+async def ad_clicked(ad_id: int, world_id: str):
     """
     Creates a new ad
     """
-    if check_if_ad_exists(ad_id):
-        return {"error": "ad_id does not exist"}
-    timestamp: int = int(datetime.now().timestamp())
+    timestamp: int = int(datetime.datetime.now().timestamp())
     tx_hash = clicked(ad_id, timestamp, world_id, wallet_address)
     return {"event": "ad_clicked", "ad_id": ad_id, "tx_hash": tx_hash}
 

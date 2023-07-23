@@ -20,6 +20,7 @@ zap_contract = w3.eth.contract(address=zap_contract_address, abi=zap_abi)
 
 # Call the `clicked` function (state-changing operation, requires transaction)
 def clicked(ad_id, timestamp, world_id, sender_address):
+    nonce = w3.eth.get_transaction_count(wallet_address)
     transaction = zap_contract.functions.clicked(
         ad_id, timestamp, world_id
     ).build_transaction(
@@ -27,13 +28,14 @@ def clicked(ad_id, timestamp, world_id, sender_address):
             "from": sender_address,
             "gas": 2000000,  # Adjust the gas value as needed
             "gasPrice": w3.to_wei("50", "gwei"),  # Adjust the gas price as needed
+            "nonce": nonce,
         }
     )
     signed_transaction = w3.eth.account.sign_transaction(
         transaction, private_key=private_key
     )
-    tx_hash = w3.eth.send_raw_transaction(signed_transaction.raw_transaction)
-    return tx_hash
+    tx_hash = w3.eth.send_raw_transaction(signed_transaction.rawTransaction)
+    return str(tx_hash)
 
 
 # Call the `reviewAd` function (state-changing operation, requires transaction)

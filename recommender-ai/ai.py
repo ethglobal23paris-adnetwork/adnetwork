@@ -236,21 +236,6 @@ def magic_ranking_ad_id(keywords: str = None):
     return ad
 
 
-def check_if_ad_exists(ad_id: int) -> bool:
-    conn = sqlite3.connect(SQLITE_DB)
-    cursor = conn.cursor()
-    cursor.execute(
-        """
-        SELECT ad_id
-        FROM ads
-        WHERE ad_id = ?
-    """,
-        (ad_id,),
-    )
-    raw = cursor.fetchone()
-    return raw is not None
-
-
 def get_all_ads(limit: int = 10) -> list[Ad]:
     conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
