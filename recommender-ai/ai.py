@@ -55,7 +55,8 @@ def create_table():
             cid TEXT,
             keywords TEXT,
             ppc INTEGER,
-            timestamp DATETIME
+            timestamp DATETIME,
+            redirect_url TEXT
         )
     """
     )
@@ -191,7 +192,7 @@ def get_ad_by_id_with_up_downs(ad_id: int) -> Ad:
     FROM ads AS a
     LEFT JOIN ad_ratings AS ar ON a.ad_id = ar.ad_id
     WHERE a.ad_id = ?
-    GROUP BY a.ad_id, a.wallet_id, a.cid, a.keywords, a.ppc, a.timestamp
+    GROUP BY a.ad_id, a.wallet_id, a.cid, a.keywords, a.ppc, a.timestamp, a.redirect_url
     """,
         (ad_id,),
     )
@@ -273,6 +274,7 @@ class UploadRequest(BaseModel):
     keywords: str
     cid: str
     ppc: int
+    redirect_url: str
 
 
 def save_cid(params: UploadRequest) -> int:
@@ -280,8 +282,8 @@ def save_cid(params: UploadRequest) -> int:
     cursor = conn.cursor()
     cursor.execute(
         """
-        INSERT INTO ads (wallet_id, keywords, cid, ppc, timestamp)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO ads (wallet_id, keywords, cid, ppc, timestamp, redirect_url)
+        VALUES (?, ?, ?, ?, ?, ?)
     """,
         (
             params.wallet_id,
@@ -289,6 +291,7 @@ def save_cid(params: UploadRequest) -> int:
             params.cid,
             params.ppc,
             datetime.datetime.now(),
+            params.redirect_url,
         ),
     )
     conn.commit()
