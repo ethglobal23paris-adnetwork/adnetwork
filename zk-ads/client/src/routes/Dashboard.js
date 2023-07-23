@@ -42,42 +42,28 @@ const Dashboard = () => {
     const handleToastClose = () => {
         setToastOpen(false);
     };
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <div style={{ padding: '2em' }}>
+              <h2>Upload an ad on the Web3Provider and add to blockchain</h2>
+              <AdsUpload />
+          </div>
 
-  return (
-    <Grid
-      container
-      direction="column"
-      style={{ minHeight: '100vh' }}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        style={{ padding: '2em' }}
-      >
-        <Grid item xs={12} md={6} lg={4}>
-          Upload an ad on the Web3Provider and add to blockchain
-          <AdsUpload/>
-        </Grid>
+          <div style={{ padding: '2em' }}>
+              <h2>List of all the ads, view count and zk rollups counter.</h2>
+              <AdsList />
+          </div>
 
-        <Grid item xs={12} md={6} lg={4}>
-          List of all the ads, view count and zk rollups counter.
-          <AdsList/>
-        </Grid>
-
-        <Grid item xs={12} md={6} lg={4}>
-          Example ad card, click refresh to see the counter increase and get a new ad.
-
-          <AdCard onRatingChange={handleRatingChange} />
-          <AdDialog open={open} onClose={handleClose}  />
-          <AdSnackbar open={toastOpen} onClose={handleToastClose} />
-          <Button variant="contained" onClick={() => setOpen(true)}>
-            Refresh
-          </Button>
-        </Grid>
-      </Grid>
-    </Grid>
+          <div style={{ padding: '2em' }}>
+              <h2>Example ad card, click refresh to see the counter increase and get a new ad.</h2>
+              <AdCard onRatingChange={handleRatingChange} />
+              <AdDialog open={open} onClose={handleClose}  />
+              <AdSnackbar open={toastOpen} onClose={handleToastClose} />
+              <Button variant="contained" onClick={() => setOpen(true)}>
+                  Refresh
+              </Button>
+          </div>
+      </div>
   );
 };
 

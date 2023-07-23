@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { List, ListItem, ListItemText, Button } from '@mui/material';
 import { Web3Storage } from 'web3.storage';
+// Read this to implement https://www.npmjs.com/package/web3.storage
 
 const AdsUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
