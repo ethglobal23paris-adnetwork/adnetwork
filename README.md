@@ -54,4 +54,20 @@ This is a mono-repo for the zKAD network project. Folders contain microservices:
 
 - `zk-ads`: contains the front-end and back-end for the zKAD network, smart contracts, and the CLI.
 
+# Integrations and Partners
+
+## MetaMask SDK
+
+We utilized the MetaMask SDK for user login, address and attestation. We first use metamask as the user login to immedeitly secure the users wallet address. This is reqiured from the moment the user enters the page as we need to query the chain and run our reccomendation engine, and finally load an ad from Web3Storage all before a user can see the ads. MetaMask allows us to do this quickly and easily. 
+
+We also use the MetaMask SDK to allow for user attestation upon rating an AD. This is a core part of ZAP, as it enables our DAO model and empowers our reccomendation engine.
+
+Here is where we instantiate the SDK [const mmsdk = new MetaMaskSDK({](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/37bddf5abd4954339155b0c14b714310ff1d7f2a/zk-ads/client/src/helpers/Ethereum.js#L8-L22)
+
+And here is where we use it to gather the users address [const MetamaskInfo = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/37bddf5abd4954339155b0c14b714310ff1d7f2a/zk-ads/client/src/helpers/MetamaskInfo.js#L4-L28)
+
+
+
+
+
 See the README.md in each folder for more details on launching the microservices.
