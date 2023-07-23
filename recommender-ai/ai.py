@@ -13,6 +13,8 @@ class Ad(BaseModel):
     keywords: str
     ppc: int
     timestamp: datetime.datetime
+    upvote_count: int = 0
+    downvote_count: int = 0
 
 
 class AdRating(BaseModel):
@@ -101,7 +103,7 @@ def get_highest_rated_ad() -> Ad:
 
     if highest_rated_ad_id:
         ad_id = highest_rated_ad_id[0]
-        return get_ad_by_id(ad_id)
+        return get_ad_by_id_with_up_downs(ad_id)
     else:
         return None
 
@@ -124,7 +126,7 @@ def get_most_paid_ad():
     conn.close()
 
     if most_profitable_ad_id:
-        return get_ad_by_id(most_profitable_ad_id[0])
+        return get_ad_by_id_with_up_downs(most_profitable_ad_id[0])
     else:
         return None
 
@@ -171,20 +173,34 @@ def get_most_relevant_ad(comma_separated_string):
         return None
 
 
-def get_ad_by_id(ad_id: int) -> Ad:
+def get_ad_by_id_with_up_downs(ad_id: int) -> Ad:
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
     cursor.execute(
         """
-        SELECT ad_id, wallet_id, cid, keywords, ppc, timestamp
-        FROM ads
-        WHERE ad_id = ?
+    SELECT a.ad_id, a.wallet_id, a.cid, a.keywords, a.ppc, a.timestamp,
+           SUM(CASE WHEN ar.is_upvote = 1 THEN 1 ELSE 0 END) AS upvote_count,
+           SUM(CASE WHEN ar.is_upvote = 0 THEN 1 ELSE 0 END) AS downvote_count
+    FROM ads AS a
+    LEFT JOIN ad_ratings AS ar ON a.ad_id = ar.ad_id
+    WHERE a.ad_id = ?
+    GROUP BY a.ad_id, a.wallet_id, a.cid, a.keywords, a.ppc, a.timestamp
     """,
         (ad_id,),
     )
+
     raw = cursor.fetchone()
     if raw:
-        ad_id, wallet_id, cid, keywords, ppc, timestamp = raw
+        (
+            ad_id,
+            wallet_id,
+            cid,
+            keywords,
+            ppc,
+            timestamp,
+            upvote_count,
+            downvote_count,
+        ) = raw
         # Create and return the Ad object
         return Ad(
             ad_id=ad_id,
@@ -193,6 +209,8 @@ def get_ad_by_id(ad_id: int) -> Ad:
             keywords=keywords,
             ppc=ppc,
             timestamp=timestamp,
+            upvote_count=upvote_count,
+            downvote_count=downvote_count,
         )
     else:
         return None
@@ -215,7 +233,7 @@ def get_all_ads(limit: int = 10) -> list[Ad]:
     cursor = conn.cursor()
     cursor.execute(
         """
-        SELECT ad_id, wallet_id, cid, keywords, ppc, timestamp
+        SELECT ad_id
         FROM ads
         ORDER BY timestamp DESC
         LIMIT ?
@@ -224,17 +242,7 @@ def get_all_ads(limit: int = 10) -> list[Ad]:
     )
     raw = cursor.fetchall()
     # transform into Ad objects
-    ads = [
-        Ad(
-            ad_id=ad[0],
-            wallet_id=ad[1],
-            cid=ad[2],
-            keywords=ad[3],
-            ppc=ad[4],
-            timestamp=ad[5],
-        )
-        for ad in raw
-    ]
+    ads = [get_ad_by_id_with_up_downs(row[0]) for row in raw]
     return ads
 
 

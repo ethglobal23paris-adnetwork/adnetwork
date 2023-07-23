@@ -7,6 +7,16 @@ import { handleRatingChange } from "../helpers/xmtp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+function calculateRating(upvoteCount, downvoteCount) {
+  const totalVotes = upvoteCount + downvoteCount;
+  if (totalVotes === 0) {
+    return 0; // No votes, return 0
+  } else {
+    const rating = (5 * upvoteCount) / totalVotes;
+    return parseFloat(rating.toFixed(1));
+  }
+}
+
 const AdCardVote = ({ ad }) => {
   const onRatingChange = async (newValue) => {
     handleRatingChange(ad.ad_id, newValue);
@@ -44,9 +54,11 @@ const AdCardVote = ({ ad }) => {
           <Box>
             <Button onClick={() => onRatingChange("up")}>
               <ThumbUp style={{ color: "green" }} />
+              {ad.upvote_count}
             </Button>
             <Button onClick={() => onRatingChange("down")}>
               <ThumbDown style={{ color: "red" }} />
+              {ad.downvote_count}
             </Button>
           </Box>
 
@@ -69,7 +81,7 @@ const AdCardVote = ({ ad }) => {
             component="div"
             sx={{ textAlign: "center", marginX: "1em 0", paddingX: "1em" }}
           >
-            {ad.rating} / 5 ⭐️s
+            {calculateRating(ad.upvote_count, ad.downvote_count)} / 5 ⭐️s
           </Typography>
           <Typography
             variant="subtitle2"

@@ -50,7 +50,6 @@ const AdsUpload = () => {
         try {
           // Upload the file to web3.storage
           const cid = await client.put(data);
-          setUploadStatus(`File uploaded successfully! CID: ${cid}`);
 
           // Send the walletId and keywords to the backend
           const response = await fetch("http://localhost:8000/upload", {
@@ -69,11 +68,10 @@ const AdsUpload = () => {
           if (!response.ok) {
             setUploadStatus("Failed to upload file. Please try again later.");
           } else {
-            setUploadStatus("File uploaded successfully!");
+            setUploadStatus(`File uploaded successfully! CID: ${cid}`);
           }
 
           // Handle successful upload
-          setUploadStatus("File uploaded successfully!");
           setSelectedFile(null);
           setKeywords("");
         } catch (error) {
