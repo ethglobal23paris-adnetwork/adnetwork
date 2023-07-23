@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Paper,
@@ -17,24 +17,28 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const Login = () => {
   let navigate = useNavigate();
+  let [metamask, setMetamask] = useState(false)
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
     async function connect() {
       await Ethereum.connect();
     }
-    // connect(); // todo fixme
+    connect(); // todo fixme
 
     if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated]);
 
   async function authenticateMetamask() {
     await Ethereum.connect();
-    if (Ethereum.accounts > 0 && isAuthenticated) navigate("/dashboard");
+    if (Ethereum.accounts.length > 0) {
+        setMetamask(true)
+    }
+    if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
   }
 
   async function authenticateWorldcoin() {
-    if (isAuthenticated && Ethereum.accounts > 0) {
+    if (isAuthenticated && Ethereum.accounts.length > 0) {
       navigate("/dashboard");
     }
   }
@@ -83,7 +87,7 @@ const Login = () => {
           await authenticateMetamask();
         }}
       >
-        {Ethereum.accounts.length > 0 && (
+        {metamask && (
           <CheckCircleIcon color="success" style={{ marginRight: 10 }} />
         )}
         <Avatar alt="Metamask" src={avatar} style={{ marginRight: 10 }} />
