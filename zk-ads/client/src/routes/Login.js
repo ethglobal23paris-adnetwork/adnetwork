@@ -23,7 +23,7 @@ const Login = () => {
     async function connect() {
       await Ethereum.connect();
     }
-    connect();
+    // connect(); // todo fixme
 
     if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
   }, [isAuthenticated, navigate]);
