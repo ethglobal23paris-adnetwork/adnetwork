@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { List, ListItem, ListItemText, TextField, Button } from "@mui/material";
+import {
+  Input,
+  List,
+  ListItem,
+  ListItemText,
+  TextField,
+  Button,
+} from "@mui/material";
 import { Web3Storage } from "web3.storage";
 
 const AdsUpload = () => {
@@ -91,11 +98,7 @@ const AdsUpload = () => {
   return (
     <List>
       <ListItem>
-        <TextField
-          label="MetaMask Wallet Address (pre-populated)"
-          value={wallet_id}
-          disabled
-        />
+        <Input type="file" accept="image/jpeg" onChange={handleFileChange} />
       </ListItem>
       <ListItem>
         <TextField
@@ -112,7 +115,11 @@ const AdsUpload = () => {
         />
       </ListItem>
       <ListItem>
-        <input type="file" accept="image/jpeg" onChange={handleFileChange} />
+        <TextField
+          label="MetaMask Wallet Address (pre-populated)"
+          value={wallet_id}
+          disabled
+        />
       </ListItem>
       <ListItem>
         <Button variant="contained" color="primary" onClick={handleUpload}>
