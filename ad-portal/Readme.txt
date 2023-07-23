@@ -1,0 +1,2 @@
+Our ad portal houses our Node endpoint allowing advertisers to quickly and easily upload images and redirectURLs to Web3Storage. These are only accessible through the CIDs
+which can be gotten in the smart contract, or through our other backend endpoints
