@@ -8,6 +8,7 @@ w3 = Web3(Web3.HTTPProvider("https://linea-goerli.infura.io/v3/51c64d09ec504c32b
 
 
 private_key = '0xac965085389145d0ede58d538b833ab26482c8c5184f482a7c2ae563f590d29f'
+contract_address = '0xfbb15d49bcd997e361c8e34ed58d19a1c27a5193'
 
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
