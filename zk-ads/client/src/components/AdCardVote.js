@@ -39,7 +39,7 @@ const AdCardVote = ({ ad }) => {
   }
 
   return (
-    <>
+    <Box>
       <ToastContainer />
       <Box>
         <Typography
@@ -65,6 +65,7 @@ const AdCardVote = ({ ad }) => {
           <Typography
             variant="subtitle2"
             component="div"
+            fullWidth
             sx={{ textAlign: "center", marginX: "1em 0", paddingX: "1em" }}
           >
             IPFS (cid): {ad.cid}
@@ -72,6 +73,7 @@ const AdCardVote = ({ ad }) => {
           <Typography
             variant="subtitle2"
             component="div"
+            fullWidth
             sx={{ textAlign: "center", marginX: "1em 0", paddingX: "1em" }}
           >
             Advertiser address: {ad.wallet_id}
@@ -79,6 +81,7 @@ const AdCardVote = ({ ad }) => {
           <Typography
             variant="subtitle2"
             component="div"
+            fullWidth
             sx={{ textAlign: "center", marginX: "1em 0", paddingX: "1em" }}
           >
             {calculateRating(ad.upvote_count, ad.downvote_count)} / 5 ⭐️s
@@ -86,6 +89,7 @@ const AdCardVote = ({ ad }) => {
           <Typography
             variant="subtitle2"
             component="div"
+            fullWidth
             sx={{ textAlign: "center", marginX: "1em 0", paddingX: "1em" }}
           >
             PPC: {ad.ppc} 💰
@@ -93,6 +97,7 @@ const AdCardVote = ({ ad }) => {
           <Typography
             sx={{ position: "relative", marginX: "1em", paddingX: "1em" }}
             variant="subtitle2"
+            fullWidth
           >
             Uploaded {moment(ad.timestamp).fromNow()}
           </Typography>
@@ -105,7 +110,7 @@ const AdCardVote = ({ ad }) => {
           />
         </Card>
       </Box>
-    </>
+    </Box>
   );
 };
 

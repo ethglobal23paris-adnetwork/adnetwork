@@ -17,7 +17,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const Login = () => {
   let navigate = useNavigate();
-  let [metamask, setMetamask] = useState(false)
+  let [metamask, setMetamask] = useState(false);
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   useEffect(() => {
@@ -27,12 +27,12 @@ const Login = () => {
     connect(); // todo fixme
 
     if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
-  }, [isAuthenticated]);
+  }, [isAuthenticated, navigate]);
 
   async function authenticateMetamask() {
     await Ethereum.connect();
     if (Ethereum.accounts.length > 0) {
-        setMetamask(true)
+      setMetamask(true);
     }
     if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
   }
@@ -102,8 +102,10 @@ const Login = () => {
     <div>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="inherit">
-          <Toolbar variant="dense">
-            {/* <img alt="Zymbit Logo" style={{ height: 50 }} src={require("")} /> */}
+          <Toolbar>
+            <Typography variant="h2" component="h1">
+              Welcome to ZAP 🇫🇷
+            </Typography>
           </Toolbar>
         </AppBar>
       </Box>
@@ -120,6 +122,9 @@ const Login = () => {
       >
         <MetamaskLoginButton />
         <WorldcoinLoginButton />
+        <Typography variant="subtitle1" color="gray">
+          Please login to continue
+        </Typography>
       </Paper>
     </div>
   );
