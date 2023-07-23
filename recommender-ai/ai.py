@@ -15,6 +15,7 @@ class Ad(BaseModel):
     keywords: str
     ppc: float
     timestamp: datetime.datetime
+    redirect_url: str
     upvote_count: int = 0
     downvote_count: int = 0
 
@@ -186,7 +187,7 @@ def get_ad_by_id_with_up_downs(ad_id: int) -> Ad:
     cursor = conn.cursor()
     cursor.execute(
         """
-    SELECT a.ad_id, a.wallet_id, a.cid, a.keywords, a.ppc, a.timestamp,
+    SELECT a.ad_id, a.wallet_id, a.cid, a.keywords, a.ppc, a.timestamp, a.redirect_url,
            SUM(CASE WHEN ar.is_upvote = 1 THEN 1 ELSE 0 END) AS upvote_count,
            SUM(CASE WHEN ar.is_upvote = 0 THEN 1 ELSE 0 END) AS downvote_count
     FROM ads AS a
@@ -206,6 +207,7 @@ def get_ad_by_id_with_up_downs(ad_id: int) -> Ad:
             keywords,
             ppc,
             timestamp,
+            redirect_url,
             upvote_count,
             downvote_count,
         ) = raw
@@ -217,6 +219,7 @@ def get_ad_by_id_with_up_downs(ad_id: int) -> Ad:
             keywords=keywords,
             ppc=ppc,
             timestamp=timestamp,
+            redirect_url=redirect_url,
             upvote_count=upvote_count,
             downvote_count=downvote_count,
         )

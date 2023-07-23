@@ -9,8 +9,6 @@ w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))
 with open("ABI.json", "r") as f:
     zap_abi = json.load(f)
 
-print("zap_abi", zap_abi)
-
 # The contract's address on the Ethereum network
 zap_contract_address = dap_contract_address
 

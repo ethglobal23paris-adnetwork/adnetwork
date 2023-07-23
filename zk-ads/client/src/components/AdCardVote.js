@@ -50,7 +50,6 @@ const AdCardVote = ({ ad }) => {
       <ToastContainer />
       <Box
         onClick={async () => {
-          console.log("clicked ad", ad);
           const response = await fetch(
             `${BACKEND_URL}/clicked?ad_id=${ad.ad_id}&world_id=${user.sub}`,
             {
@@ -71,7 +70,7 @@ const AdCardVote = ({ ad }) => {
             const data = await response.json();
             console.log("data", data);
           }
-
+          console.log("going to:", ad.redirect_url);
           window.open(ad.redirect_url, "_blank");
         }}
       >
