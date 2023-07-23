@@ -32,7 +32,7 @@ contract ZAP {
         string ipfsCid;
         string redirectUrl;
         string category;
-        int16 currentClicks;
+        uint16 currentClicks;
         uint upVotes;
         uint downVotes;
     }
@@ -67,20 +67,34 @@ contract ZAP {
         emit AdCreated(ipfsCid);
     }
 
-    function clicked(uint timestamp, string memory worldId, string memory ipfsCid) public onlyBackend {
+    function clicked(
+        uint timestamp,
+        string memory worldId,
+        string memory ipfsCid
+    ) public onlyBackend {
         for (uint i = 0; i < ads.length; i++) {
-            if (keccak256(abi.encodePacked(ads[i].ipfsCid)) == keccak256(abi.encodePacked(ipfsCid))) {
+            if (
+                keccak256(abi.encodePacked(ads[i].ipfsCid)) ==
+                keccak256(abi.encodePacked(ipfsCid))
+            ) {
                 ads[i].currentClicks += 1;
-                publisherAddress.transfer(cpc * 9 / 10);
+                publisherAddress.transfer((cpc * 9) / 10);
                 backendAddress.transfer(cpc / 10);
                 emit AdClicked(ads[i].ipfsCid, timestamp, worldId);
             }
         }
     }
 
-    function reviewAd(string memory worldId, string memory ipfsCid, bool review) public onlyBackend {
+    function reviewAd(
+        string memory worldId,
+        string memory ipfsCid,
+        bool review
+    ) public onlyBackend {
         for (uint i = 0; i < ads.length; i++) {
-            if (keccak256(abi.encodePacked(ads[i].ipfsCid)) == keccak256(abi.encodePacked(ipfsCid))) {
+            if (
+                keccak256(abi.encodePacked(ads[i].ipfsCid)) ==
+                keccak256(abi.encodePacked(ipfsCid))
+            ) {
                 if (review) {
                     ads[i].upVotes += 1;
                 } else {
