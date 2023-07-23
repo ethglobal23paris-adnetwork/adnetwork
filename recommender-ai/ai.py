@@ -205,6 +205,7 @@ def magic_ranking_ad_id(keywords: str = None):
         get_most_paid_ad(),
         get_highest_rated_ad(),
     ]
+    print(choices)
     ad = random.choice(choices)
     return ad
 
@@ -241,6 +242,7 @@ class UploadRequest(BaseModel):
     wallet_id: str
     keywords: str
     cid: str
+    ppc: int
 
 
 def save_cid(params: UploadRequest):
@@ -251,7 +253,13 @@ def save_cid(params: UploadRequest):
         INSERT INTO ads (wallet_id, keywords, cid, ppc, timestamp)
         VALUES (?, ?, ?, ?, ?)
     """,
-        (params.wallet_id, params.keywords, params.cid, 0, datetime.datetime.now()),
+        (
+            params.wallet_id,
+            params.keywords,
+            params.cid,
+            params.ppc,
+            datetime.datetime.now(),
+        ),
     )
     conn.commit()
 

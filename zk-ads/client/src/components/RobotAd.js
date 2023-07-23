@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { List, ListItem, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Button } from "@mui/material";
 import AdCardVote from "./AdCardVote";
 
 const AdsList = () => {
@@ -19,19 +19,10 @@ const AdsList = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAI();
-  }, []);
-
-  const refreshAI = () => {
-    fetchAI();
-  };
-
   return (
     <>
       <AdCardVote ad={ad} />
-
-      <Button onClick={refreshAI}>Recommend me!</Button>
+      <Button onClick={fetchAI}>Recommend me!</Button>
     </>
   );
 };
