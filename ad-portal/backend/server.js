@@ -23,38 +23,11 @@ const upload = multer({
 function makeStorageClient(){
     return new Web3Storage({token:API_TOKEN})
 }
-/*
-async function getFiles (path) {
-    console.log("hello")
-    const files = await getFilesFromPath(path)
-    console.log(`read ${files.length} file(s) from ${path}`)
-    return files
-}
-
-
-async function storeFiles (files) {
-    const client = makeStorageClient()
-    const cid = await client.put(files)
-    console.log('stored files with cid:', cid)
-    return cid
-  }
-*/
-
-app.post('/try',upload.single('image'), async(req,res) =>{
-  console.log("trying");
-  const { originalname, buffer } = req.file;
-  console.log(buffer);
-  res.status(200).json({ message: 'This is a test endpoint.' });
-})
-
-
 
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
-    console.log("trying1");
     const { originalname, buffer } = req.file;
     const redirectUrl = req.body.redirectUrl || '/';
-    console.log("trying");
 
     // Create a single File object from the uploaded image
     const file = new File([buffer], originalname);
@@ -82,21 +55,6 @@ app.post('/upload', upload.single('image'), async (req, res) => {
   const port = 3000;
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
-  });
-
-  app.get('/test', (req, res) => {
-    res.status(200).json({ message: 'This is a test endpoint.' });
-  });
-  
-
-
-  app.get('/all_ads', (req, res) => {
-    res.status(200).json(result);
-  });
-
-  app.get('/ad', (req, res) => {
-    const adName = req.query.adName
-    res.status(200).json(result);
   });
 
 

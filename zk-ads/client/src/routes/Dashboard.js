@@ -2,10 +2,12 @@
 import "../components/polyfills";
 import React, { useState } from 'react';
 
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import AdCard from '../components/AdCard';
 import AdDialog from '../components/AdDialog';
 import AdSnackbar from '../components/AdSnackbar';
+import AdsList from '../components/AdsList';
+import AdsUpload from "../components/AdsUpload";
 
 import { Client } from '@xmtp/xmtp-js';
 import { providers } from 'ethers';
@@ -55,9 +57,24 @@ const Dashboard = () => {
         style={{ padding: '2em' }}
       >
         <Grid item xs={12} md={6} lg={4}>
+          Upload an ad on the Web3Provider and add to blockchain
+          <AdsUpload/>
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={4}>
+          List of all the ads, view count and zk rollups counter.
+          <AdsList/>
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={4}>
+          Example ad card, click refresh to see the counter increase and get a new ad.
+
           <AdCard onRatingChange={handleRatingChange} />
           <AdDialog open={open} onClose={handleClose}  />
           <AdSnackbar open={toastOpen} onClose={handleToastClose} />
+          <Button variant="contained" onClick={() => setOpen(true)}>
+            Refresh
+          </Button>
         </Grid>
       </Grid>
     </Grid>
