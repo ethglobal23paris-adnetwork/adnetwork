@@ -1,6 +1,14 @@
 from ai import save_rating, magic_ranking_ad_id, get_all_ads, save_cid, UploadRequest
 from fastapi import FastAPI
+from web3 import Web3, HTTPProvider
+from eth_account import Account
 from fastapi.middleware.cors import CORSMiddleware
+
+w3 = Web3(Web3.HTTPProvider("https://linea-goerli.infura.io/v3/51c64d09ec504c32bc832829d8211891"))
+
+
+private_key = '0xac965085389145d0ede58d538b833ab26482c8c5184f482a7c2ae563f590d29f'
+
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
