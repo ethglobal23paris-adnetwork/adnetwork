@@ -31,18 +31,19 @@ def read_root():
 
 
 @app.post("/")
-async def handle_xmtp_relay(msg):
+async def handle_xmtp_relay(text):
     try:
-        ad_id, world_id, cid, is_upvote = save_rating(msg)
-
+        ad_id, world_id, cid, is_upvote = save_rating(text)
+        # tx_hash = 1000000000
+        print(ad_id, world_id, cid, is_upvote)
         tx_hash = review_ad(
             ad_id=ad_id,
             world_id=world_id,
             ipfs_cid=cid,
             review=is_upvote,
-            sender_address=wallet_address,
         )
-        return {"ad_id": ad_id, "msg": msg, "status": "ok", "tx_hash": tx_hash}
+        print(tx_hash)
+        return {"ad_id": ad_id, "text": text, "status": "ok", "tx_hash": tx_hash}
 
     except Exception:
         return {"oops": "something went wrong"}

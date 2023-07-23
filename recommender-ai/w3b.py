@@ -36,12 +36,12 @@ def clicked(ad_id, timestamp, world_id, sender_address):
 
 
 # Call the `reviewAd` function (state-changing operation, requires transaction)
-def review_ad(ad_id, world_id, ipfs_cid, review, sender_address):
+def review_ad(ad_id, world_id, ipfs_cid, review):
     transaction = zap_contract.functions.reviewAd(
         ad_id, world_id, ipfs_cid, review
     ).buildTransaction(
         {
-            "from": sender_address,
+            "from": wallet_address,
             "gas": 2000000,  # Adjust the gas value as needed
             "gasPrice": w3.toWei("50", "gwei"),  # Adjust the gas price as needed
         }
