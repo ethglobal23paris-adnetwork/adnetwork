@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { List, ListItem, Button } from '@mui/material';
-import AdCardItem from './AdCardItem';
+import React, { useEffect, useState } from "react";
+import { List, ListItem, Button } from "@mui/material";
+import AdCardVote from "./AdCardVote";
 
 const AdsList = () => {
   const [ads, setAds] = useState([]);
 
   const fetchAds = async () => {
     try {
-      const response = await fetch('http://localhost:8000/ads');
+      const response = await fetch("http://localhost:8000/ads");
       if (!response.ok) {
-        throw new Error('Failed to fetch ads.');
+        throw new Error("Failed to fetch ads.");
       }
       const data = await response.json();
-      console.log('ads data', data);
       setAds(data);
     } catch (error) {
-      console.error('Error fetching ads:', error);
+      console.error("Error fetching ads:", error);
     }
   };
 
@@ -29,13 +28,11 @@ const AdsList = () => {
 
   return (
     <>
-      <Button variant="contained" onClick={handleRefresh}>
-        Refresh
-      </Button>
+      <Button onClick={handleRefresh}>Refresh</Button>
       <List>
         {ads.map((ad) => (
           <ListItem key={ad.ad_id}>
-            <AdCardItem ad={ad} />
+            <AdCardVote ad={ad} />
           </ListItem>
         ))}
       </List>

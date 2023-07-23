@@ -13,6 +13,7 @@ uvicorn = "^0.23.1"
 w3storage = "^0.0.1"
 requests = "^2.31.0"
 python-multipart = "^0.0.6"
+web3 = "^6.6.1"
 
 
 [build-system]
