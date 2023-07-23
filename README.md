@@ -93,6 +93,8 @@ Here is where we generate our keys and account [w3 = Web3(Web3.HTTPProvider(infu
 
 We use Worldcoin as our second login layer to ensure proof of personhood and to allow for ZK attestations. Having the User authenticate with worldcoin greatly bolsters us against Cybil attacks because it ensures proof of personhood. The other advantage of Worldcoin is that we are able to smooth out the user expierince. When a user clicks on an ad, they previously needed to sign an attestation, and we needed to use on-chain queryies to verify personhood, or atleast attempt to. Implementing Worldcoin simplified our algoirthm while greatly increaseing the robustness. 
 
+We also would like to qualify for the worldcoin AI use case prize.
+
 Here is our worldcoin login[const WorldcoinLoginButton = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/routes/Login.js#L46)
 
 
