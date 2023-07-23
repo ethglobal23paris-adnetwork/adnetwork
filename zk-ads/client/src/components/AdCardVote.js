@@ -6,8 +6,12 @@ import moment from "moment";
 import { handleRatingChange } from "../helpers/xmtp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 function calculateRating(upvoteCount, downvoteCount) {
+  const { user } = useAuth0();
+  
   const totalVotes = upvoteCount + downvoteCount;
   if (totalVotes === 0) {
     return 0; // No votes, return 0
