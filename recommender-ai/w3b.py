@@ -1,3 +1,4 @@
+from eth_account import Account
 from web3 import Web3
 from env import infura_HTTPProvider, contract_address, EIP20_ABI, private_key
 import json
@@ -82,3 +83,15 @@ def review_ad(ad_id, world_id, ipfs_cid, review, sender_address):
 # Replace 'ad_id', 'timestamp', and 'world_id' with the appropriate arguments for the function.
 # The `call()` method is used for read-only functions, and it will return the result of the function call.
 # Note that read-only functions do not require a transaction, so you don't need to sign or send any transactions for them.
+
+
+def get_wallet_address(private_key):
+    if not private_key.startswith("0x"):
+        private_key = "0x" + private_key
+    if not Web3.is_checksum_address(private_key):
+        raise ValueError(
+            "Invalid private key format. \
+        It should be a valid 32-byte hexadecimal value with or without '0x' prefix."
+        )
+    account = Account.from_key(private_key)
+    return account.address

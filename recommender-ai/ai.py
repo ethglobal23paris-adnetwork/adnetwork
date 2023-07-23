@@ -228,6 +228,21 @@ def magic_ranking_ad_id(keywords: str = None):
     return ad
 
 
+def check_if_ad_exists(ad_id: int) -> bool:
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        SELECT ad_id
+        FROM ads
+        WHERE ad_id = ?
+    """,
+        (ad_id,),
+    )
+    raw = cursor.fetchone()
+    return raw is not None
+
+
 def get_all_ads(limit: int = 10) -> list[Ad]:
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
@@ -253,7 +268,7 @@ class UploadRequest(BaseModel):
     ppc: int
 
 
-def save_cid(params: UploadRequest):
+def save_cid(params: UploadRequest) -> int:
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
     cursor.execute(
@@ -270,6 +285,7 @@ def save_cid(params: UploadRequest):
         ),
     )
     conn.commit()
+    return cursor.lastrowid
 
 
 # Call the function to create the table (called once)
