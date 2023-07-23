@@ -62,10 +62,50 @@ We utilized the MetaMask SDK for user login, address and attestation. We first u
 
 We also use the MetaMask SDK to allow for user attestation upon rating an AD. This is a core part of ZAP, as it enables our DAO model and empowers our reccomendation engine.
 
+Here is where we use Metamask to login [const MetamaskLoginButton = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/routes/Login.js#L75)
+
 Here is where we instantiate the SDK [const mmsdk = new MetaMaskSDK({](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/37bddf5abd4954339155b0c14b714310ff1d7f2a/zk-ads/client/src/helpers/Ethereum.js#L8-L22)
 
 And here is where we use it to gather the users address [const MetamaskInfo = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/37bddf5abd4954339155b0c14b714310ff1d7f2a/zk-ads/client/src/helpers/MetamaskInfo.js#L4-L28)
 
+
+## Web3Storage and IPFS
+
+Web3Storage is used by Zap to upload and store advertisment data (Including AD banner images, and Redirect URLs) in a dencentralized system. When advertisers create a new AD our frontend uploads to Web3Storage directly, allowing us to bypass the need for a centralized backend. The CIDs are stored in the smart contract allowing all of our systems to access all of the currently available advertisements, and thier CIDs.
+
+Here is our backend endpoint[app.post('/upload', upload.single('image'), async (req, res) => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/ad-portal/backend/server.js#L27)
+
+Here is our retreival code [export async function ipfs_retrieve (cid) {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/helpers/ipfs.js#L9)
+
+Here is our front end retrieval method [const handleUpload = async () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/components/AdsUpload.js#L47)
+
+
+## Linea 
+
+We deployed ZAP using Linea's ZK rollup. This allows us to deploy on infura aswell. Using Linea as a ZK rollup allows us to further abstract users on chain identities, ensuring that our platform is privacy preserving.
+
+Here is were we connect with Infura[w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/recommender-ai/w3b.py#L6)
+
+Here is where we generate our keys and account [w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/recommender-ai/generate_key.py#L4-L7)
+
+
+## World Coin
+
+We use Worldcoin as our second login layer to ensure proof of personhood and to allow for ZK attestations. Having the User authenticate with worldcoin greatly bolsters us against Cybil attacks because it ensures proof of personhood. The other advantage of Worldcoin is that we are able to smooth out the user expierince. When a user clicks on an ad, they previously needed to sign an attestation, and we needed to use on-chain queryies to verify personhood, or atleast attempt to. Implementing Worldcoin simplified our algoirthm while greatly increaseing the robustness. 
+
+Here is our worldcoin login[const WorldcoinLoginButton = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/routes/Login.js#L46)
+
+
+## XMTP
+
+We use XMTP to add a layer of abstraction on top of our backend calls. Currently our reccomendation algorithm lives on am endpoint. To communicate with our engine endpoint we use XMTP to send a message to our node relay, which then relays the message to our flask backend where the engine lives. The engine sends the results back the front end using the same approach. We also use xmtp to send rating data to our engine.
+
+
+Here is where we send rating data to the engine using XMTP [export const handleRatingChange = async (ad_id, newValue) => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/helpers/xmtp.js#L4)
+
+
+
+Here is our relay [const AI_BACKEND = process.env.AI_BACKEND;](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/xmtp-anonymizer/relay.js#L6-L20)
 
 
 

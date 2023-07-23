@@ -1,2 +1,0 @@
-We used the xmtp messaging protocol to obfuscate our backend calls to the reccomendation engine from the frontend. This was done to ensure user privacy and protect our endpoints. 
-relay.js is a nodejs relay the lies between the xmtp messages on the frontend and our flask backend allowing for seemless communication between the two while protecting our users data and our platforms security.
