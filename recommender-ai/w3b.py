@@ -1,17 +1,17 @@
 from eth_account import Account
 from web3 import Web3
-from env import infura_HTTPProvider, contract_address, EIP20_ABI, private_key
+from env import infura_HTTPProvider, dap_contract_address, private_key
 import json
 
 w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))
-unicorns = w3.eth.contract(address=contract_address, abi=EIP20_ABI)
+unicorns = w3.eth.contract(address=dap_contract_address)
 
 
 # The contract's ABI (read from ABI.json)
 zap_abi = json.loads(open("ABI.json", "r").read())
 
 # The contract's address on the Ethereum network
-zap_contract_address = contract_address
+zap_contract_address = dap_contract_address
 
 # Create a contract object
 zap_contract = w3.eth.contract(address=zap_contract_address, abi=zap_abi)
@@ -71,18 +71,6 @@ def review_ad(ad_id, world_id, ipfs_cid, review, sender_address):
     )
     tx_hash = w3.eth.sendRawTransaction(signed_transaction.rawTransaction)
     return tx_hash
-
-
-# For state-changing functions (createAd, clicked, reviewAd), you will receive a transaction hash (tx_hash).
-# You can use this transaction hash to track the status of the transaction on the Ethereum network.
-
-# For read-only functions, you can call them directly using the contract object.
-# For example, to call the `clicked` function:
-# result = zap_contract.functions.clicked(ad_id, timestamp, world_id).call()
-
-# Replace 'ad_id', 'timestamp', and 'world_id' with the appropriate arguments for the function.
-# The `call()` method is used for read-only functions, and it will return the result of the function call.
-# Note that read-only functions do not require a transaction, so you don't need to sign or send any transactions for them.
 
 
 def get_wallet_address(private_key):
