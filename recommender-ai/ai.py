@@ -64,13 +64,17 @@ def create_table():
 
 
 # Function to save the rating to database
-def save_rating(text) -> int:
+def save_rating(text) -> tuple[int, str]:
     obj = json.loads(text)
     sender = obj["from"]
     ad_id = obj["ad_id"]
     rating = obj["rating"]
     is_upvote = rating == "up"
     timestamp = datetime.datetime.now()
+    world_id = obj["world_id"]
+    # world_id "oauth2|worldcoin|0x0feddd21b98c6caf6713ff23f3acf4ae0c5369ada82eb70a91a2f257abc84ca1"
+    cid = obj["cid"]
+
     print(f"Saving data to database: {sender}, {ad_id}, {is_upvote}, {timestamp}")
     conn = sqlite3.connect(SQLITE_DB)
     cursor = conn.cursor()
@@ -83,7 +87,7 @@ def save_rating(text) -> int:
     )
     conn.commit()
     ad_id = cursor.lastrowid
-    return ad_id
+    return ad_id, world_id, cid, is_upvote
 
 
 def get_highest_rated_ad() -> Ad:

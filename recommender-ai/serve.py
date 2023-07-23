@@ -33,10 +33,15 @@ def read_root():
 @app.post("/")
 async def handle_xmtp_relay(msg):
     try:
-        ad_id = save_rating(msg)
+        ad_id, world_id, cid, is_upvote = save_rating(msg)
+
         tx_hash = review_ad(
-            ad_id, 1, "ipfs_cid", msg, wallet_address
-        )  # todo: get world_id from msg
+            ad_id=ad_id,
+            world_id=world_id,
+            ipfs_cid=cid,
+            review=is_upvote,
+            sender_address=wallet_address,
+        )
         return {"ad_id": ad_id, "msg": msg, "status": "ok", "tx_hash": tx_hash}
 
     except Exception:

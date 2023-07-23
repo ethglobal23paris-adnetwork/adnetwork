@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Card, Chip, Typography } from "@mui/material";
 import { FlashOn, ThumbUp, ThumbDown } from "@mui/icons-material";
 import AdImage from "./AdCardImage";
@@ -6,12 +6,9 @@ import moment from "moment";
 import { handleRatingChange } from "../helpers/xmtp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth0 } from '@auth0/auth0-react';
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 function calculateRating(upvoteCount, downvoteCount) {
-  const { user } = useAuth0();
-  
   const totalVotes = upvoteCount + downvoteCount;
   if (totalVotes === 0) {
     return 0; // No votes, return 0
@@ -22,8 +19,13 @@ function calculateRating(upvoteCount, downvoteCount) {
 }
 
 const AdCardVote = ({ ad }) => {
+  const { user } = useAuth0();
+  useEffect(() => {
+    console.log("AdCardVote user", user);
+  }, [user]);
+
   const onRatingChange = async (newValue) => {
-    handleRatingChange(ad.ad_id, newValue);
+    handleRatingChange(ad.ad_id, newValue, user.sub, ad.cid);
     const up = newValue === "up";
     if (up) {
       toast.success(`Attest your 👍 vote! 🙏`, {
