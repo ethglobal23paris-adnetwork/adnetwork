@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Button, Card, Chip, Typography } from "@mui/material";
 import { FlashOn, ThumbUp, ThumbDown } from "@mui/icons-material";
 import AdImage from "./AdCardImage";
@@ -7,7 +7,6 @@ import { handleRatingChange } from "../helpers/xmtp";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { BACKEND_URL } from "../helpers/config";
 
 function calculateRating(upvoteCount, downvoteCount) {
   const totalVotes = upvoteCount + downvoteCount;
@@ -21,10 +20,6 @@ function calculateRating(upvoteCount, downvoteCount) {
 
 const AdCardVote = ({ ad }) => {
   const { user } = useAuth0();
-  useEffect(() => {
-    console.log("AdCardVote user", user);
-  }, [user]);
-
   const onRatingChange = async (newValue) => {
     handleRatingChange(ad.ad_id, newValue, user.sub, ad.cid);
     const up = newValue === "up";
@@ -48,32 +43,7 @@ const AdCardVote = ({ ad }) => {
   return (
     <Box>
       <ToastContainer />
-      <Box
-        onClick={async () => {
-          const response = await fetch(
-            `${BACKEND_URL}/clicked?ad_id=${ad.ad_id}&world_id=${user.sub}`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              // body: JSON.stringify({
-              //   ad_id: ad.ad_id,
-              //   world_id: user.sub,
-              // }),
-            }
-          );
-
-          if (!response.ok) {
-            console.error("Error fetching ads:", response);
-          } else {
-            const data = await response.json();
-            console.log("data", data);
-          }
-          console.log("going to:", ad.redirect_url);
-          window.open(ad.redirect_url, "_blank");
-        }}
-      >
+      <Box>
         <Typography
           variant="h5"
           component="div"
