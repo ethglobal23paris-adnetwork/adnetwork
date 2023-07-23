@@ -1,6 +1,6 @@
 import "../components/polyfills";
 import React from "react";
-import { Typography, Box, AppBar, Toolbar } from "@mui/material";
+import { Typography, Box, AppBar, Toolbar, Grid, Divider } from "@mui/material";
 import AdsList from "../components/AdsList";
 import AdsUpload from "../components/AdsUpload";
 import RobotAd from "../components/RobotAd";
@@ -18,24 +18,26 @@ const Dashboard = () => {
         </AppBar>
       </Box>
 
-      <div
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
-      >
-        <div style={{ padding: "2em" }}>
-          <h2>Upload an ad on the Web3Provider and add to blockchain</h2>
+      <Grid container spacing={4} style={{ padding: "2em" }}>
+        <Grid item xs={12}>
+          <Typography variant="h4">Upload an ad on the Web3Provider and add to blockchain</Typography>
           <AdsUpload />
-        </div>
+        </Grid>
+        
+        <Divider variant="middle" style={{ margin: "2em 0" }} />
 
-        <div style={{ padding: "2em" }}>
-          <h2>Ads</h2>
+        <Grid item xs={12}>
+          <Typography variant="h4">Ads</Typography>
           <AdsList />
-        </div>
+        </Grid>
 
-        <div style={{ padding: "2em" }}>
-          <h2>🤖 AI to serve relevant ads to users!</h2>
+        <Divider variant="middle" style={{ margin: "2em 0" }} />
+
+        <Grid item xs={12}>
+          <Typography variant="h4">🤖 AI to serve relevant ads to users!</Typography>
           <RobotAd />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </div>
   );
 };
