@@ -8,11 +8,13 @@ import {
   Button,
 } from "@mui/material";
 import { Web3Storage } from "web3.storage";
+import { redirect } from "react-router-dom";
 
 const AdsUpload = () => {
   const [wallet_id, setWalletId] = useState("");
   const [keywords, setKeywords] = useState("");
   const [ppc, setPPC] = useState("");
+  const [redirect_url, setRedirectUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const YOUR_WEB3_STORAGE_API_TOKEN =
@@ -44,6 +46,10 @@ const AdsUpload = () => {
     setPPC(event.target.value);
   };
 
+  const handleRedirectChange = (event) => {
+    setRedirectUrl(event.target.value);
+  };
+
   const handleUpload = async () => {
     if (selectedFile) {
       if (
@@ -66,6 +72,7 @@ const AdsUpload = () => {
             },
             body: JSON.stringify({
               wallet_id: wallet_id,
+              redirect_url: redirect_url,
               keywords: keywords,
               ppc: ppc,
               cid: cid,
@@ -99,6 +106,13 @@ const AdsUpload = () => {
     <List>
       <ListItem>
         <Input type="file" accept="image/jpeg" onChange={handleFileChange} />
+      </ListItem>
+      <ListItem>
+        <TextField
+          label="Redirect URL"
+          value={redirect_url}
+          onChange={handleRedirectChange}
+        />
       </ListItem>
       <ListItem>
         <TextField

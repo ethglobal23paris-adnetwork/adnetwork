@@ -19,6 +19,9 @@ const Ethereum = {
   getAccounts: async () => {
     Ethereum.accounts = await Ethereum.provider.send("eth_requestAccounts", []);
   },
+  genAd: async () => {
+    
+  }
 };
 
 export default Ethereum;
