@@ -1,6 +1,6 @@
 from eth_account import Account
 from web3 import Web3
-from env import infura_HTTPProvider, dap_contract_address, private_key
+from env import infura_HTTPProvider, dap_contract_address, private_key, wallet_address
 import json
 
 w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))
@@ -15,26 +15,6 @@ zap_contract_address = dap_contract_address
 
 # Create a contract object
 zap_contract = w3.eth.contract(address=zap_contract_address, abi=zap_abi)
-
-# Example usage of the contract functions
-
-
-# Call the `createAd` function (state-changing operation, requires transaction)
-def create_ad(ipfs_cid, redirect_url, category, sender_address):
-    transaction = zap_contract.functions.createAd(
-        ipfs_cid, redirect_url, category
-    ).buildTransaction(
-        {
-            "from": sender_address,
-            "gas": 2000000,  # Adjust the gas value as needed
-            "gasPrice": w3.toWei("50", "gwei"),  # Adjust the gas price as needed
-        }
-    )
-    signed_transaction = w3.eth.account.signTransaction(
-        transaction, private_key=private_key
-    )
-    tx_hash = w3.eth.sendRawTransaction(signed_transaction.rawTransaction)
-    return tx_hash
 
 
 # Call the `clicked` function (state-changing operation, requires transaction)

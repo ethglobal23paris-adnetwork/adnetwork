@@ -1,6 +1,6 @@
 import datetime
 from env import wallet_address
-from w3b import create_ad, clicked, review_ad
+from w3b import clicked, review_ad
 from ai import (
     save_rating,
     magic_ranking_ad_id,
@@ -77,8 +77,7 @@ async def upload(params: UploadRequest):
     Creates a new ad
     """
     ad_id = save_cid(params)
-    tx_hash = create_ad(params.cid, params.ppc, params.keywords, params.wallet_id)
-    return {"uploaded": params, "tx_hash": tx_hash, "ad_id": ad_id}
+    return {"uploaded": params, "ad_id": ad_id}
 
 
 app = cors_app

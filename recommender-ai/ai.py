@@ -13,7 +13,7 @@ class Ad(BaseModel):
     wallet_id: str
     cid: str
     keywords: str
-    ppc: int
+    ppc: float
     timestamp: datetime.datetime
     upvote_count: int = 0
     downvote_count: int = 0
@@ -54,7 +54,7 @@ def create_table():
             wallet_id TEXT,
             cid TEXT,
             keywords TEXT,
-            ppc INTEGER,
+            ppc REAL,
             timestamp DATETIME,
             redirect_url TEXT
         )
@@ -273,7 +273,7 @@ class UploadRequest(BaseModel):
     wallet_id: str
     keywords: str
     cid: str
-    ppc: int
+    ppc: float
     redirect_url: str
 
 
