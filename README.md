@@ -2,7 +2,9 @@
 
 ![Logo](assets/logo.png)
 
-[Slides presentation](https://docs.google.com/presentation/d/1f45JjelZp2ldz2nsQdrBUq3VKB1Nlqr8tpfnOB8LZvU/edit?usp=sharing)
+[Slides presentation](static/ZAP_ZK_Ad_Platform.pdf)
+
+[Video](static/ZAP_zk_ad_platform.mp4)
 
 ## Introduction
 
@@ -58,7 +60,7 @@ This is a mono-repo for the zKAD network project. Folders contain microservices:
 
 ## MetaMask SDK
 
-We utilized the MetaMask SDK for user login, address and attestation. We first use metamask as the user login to immedeitly secure the users wallet address. This is reqiured from the moment the user enters the page as we need to query the chain and run our reccomendation engine, and finally load an ad from Web3Storage all before a user can see the ads. MetaMask allows us to do this quickly and easily. 
+We utilized the MetaMask SDK for user login, address and attestation. We first use metamask as the user login to immedeitly secure the users wallet address. This is reqiured from the moment the user enters the page as we need to query the chain and run our reccomendation engine, and finally load an ad from Web3Storage all before a user can see the ads. MetaMask allows us to do this quickly and easily.
 
 We also use the MetaMask SDK to allow for user attestation upon rating an AD. This is a core part of ZAP, as it enables our DAO model and empowers our reccomendation engine.
 
@@ -67,7 +69,6 @@ Here is where we use Metamask to login [const MetamaskLoginButton = () => {](htt
 Here is where we instantiate the SDK [const mmsdk = new MetaMaskSDK({](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/37bddf5abd4954339155b0c14b714310ff1d7f2a/zk-ads/client/src/helpers/Ethereum.js#L8-L22)
 
 And here is where we use it to gather the users address [const MetamaskInfo = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/37bddf5abd4954339155b0c14b714310ff1d7f2a/zk-ads/client/src/helpers/MetamaskInfo.js#L4-L28)
-
 
 ## Web3Storage and IPFS
 
@@ -79,8 +80,7 @@ Here is our retreival code [export async function ipfs_retrieve (cid) {](https:/
 
 Here is our front end retrieval method [const handleUpload = async () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/components/AdsUpload.js#L47)
 
-
-## Linea 
+## Linea
 
 We deployed ZAP using Linea's ZK rollup. This allows us to deploy on infura aswell. Using Linea as a ZK rollup allows us to further abstract users on chain identities, ensuring that our platform is privacy preserving.
 
@@ -88,28 +88,20 @@ Here is were we connect with Infura[w3 = Web3(Web3.HTTPProvider(infura_HTTPProvi
 
 Here is where we generate our keys and account [w3 = Web3(Web3.HTTPProvider(infura_HTTPProvider))](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/recommender-ai/generate_key.py#L4-L7)
 
-
 ## World Coin
 
-We use Worldcoin as our second login layer to ensure proof of personhood and to allow for ZK attestations. Having the User authenticate with worldcoin greatly bolsters us against Cybil attacks because it ensures proof of personhood. The other advantage of Worldcoin is that we are able to smooth out the user expierince. When a user clicks on an ad, they previously needed to sign an attestation, and we needed to use on-chain queryies to verify personhood, or atleast attempt to. Implementing Worldcoin simplified our algoirthm while greatly increaseing the robustness. 
+We use Worldcoin as our second login layer to ensure proof of personhood and to allow for ZK attestations. Having the User authenticate with worldcoin greatly bolsters us against Cybil attacks because it ensures proof of personhood. The other advantage of Worldcoin is that we are able to smooth out the user expierince. When a user clicks on an ad, they previously needed to sign an attestation, and we needed to use on-chain queryies to verify personhood, or atleast attempt to. Implementing Worldcoin simplified our algoirthm while greatly increaseing the robustness.
 
 We also would like to qualify for the worldcoin AI use case prize.
 
 Here is our worldcoin login[const WorldcoinLoginButton = () => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/routes/Login.js#L46)
 
-
 ## XMTP
 
 We use XMTP to add a layer of abstraction on top of our backend calls. Currently our reccomendation algorithm lives on am endpoint. To communicate with our engine endpoint we use XMTP to send a message to our node relay, which then relays the message to our flask backend where the engine lives. The engine sends the results back the front end using the same approach. We also use xmtp to send rating data to our engine.
 
-
 Here is where we send rating data to the engine using XMTP [export const handleRatingChange = async (ad_id, newValue) => {](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/zk-ads/client/src/helpers/xmtp.js#L4)
 
-
-
 Here is our relay [const AI_BACKEND = process.env.AI_BACKEND;](https://github.com/ethglobal23paris-adnetwork/adnetwork/blob/e0707eddcc6ebea8f31becccc5f860cea2aeddad/xmtp-anonymizer/relay.js#L6-L20)
-
-
-
 
 See the README.md in each folder for more details on launching the microservices.
