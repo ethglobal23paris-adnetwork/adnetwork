@@ -1,10 +1,20 @@
 # Web 3 Advertising Network (zk-ads)
 
-![Logo](assets/logo.png)
+![Logo](static/zap.png)
 
 [Slides presentation](static/ZAP_ZK_Ad_Platform.pdf)
 
 [Video](static/ZAP_zk_ad_platform.mp4)
+
+![Team](static/team.jpg)
+
+- **Shivaansh Kapoor** [LinkedIn](https://www.linkedin.com/in/shivaanshk/)
+
+- **Cindy Lin** [LinkedIn](https://www.linkedin.com/in/cindl)
+
+- **Jason Sun** [LinkedIn](https://www.linkedin.com/in/sunapi386/)
+
+- **Anthony Pella** [LinkedIn](https://www.linkedin.com/in/anthony-pella-3111a722a/)
 
 ## Introduction
 
