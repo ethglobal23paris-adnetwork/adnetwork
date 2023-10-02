@@ -4,9 +4,6 @@ import {
   Paper,
   Typography,
   Avatar,
-  Box,
-  AppBar,
-  Toolbar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import avatar from "../assets/MetaMask.png";
@@ -18,7 +15,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 const Login = () => {
   let navigate = useNavigate();
   let [metamask, setMetamask] = useState(false);
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated: worldcoinAuthenticated, loginWithRedirect: worldcoinLogin } = useAuth0();
 
   useEffect(() => {
     async function connect() {
@@ -26,19 +23,19 @@ const Login = () => {
     }
     connect(); // todo fixme
 
-    if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
-  }, [isAuthenticated, navigate]);
+    if (Ethereum.accounts.length > 0 && worldcoinAuthenticated) navigate("/dashboard");
+  }, [worldcoinAuthenticated, navigate]);
 
   async function authenticateMetamask() {
     await Ethereum.connect();
     if (Ethereum.accounts.length > 0) {
       setMetamask(true);
     }
-    if (Ethereum.accounts.length > 0 && isAuthenticated) navigate("/dashboard");
+    if (Ethereum.accounts.length > 0 && worldcoinAuthenticated) navigate("/dashboard");
   }
 
   async function authenticateWorldcoin() {
-    if (isAuthenticated && Ethereum.accounts.length > 0) {
+    if (worldcoinAuthenticated && Ethereum.accounts.length > 0) {
       navigate("/dashboard");
     }
   }
@@ -55,13 +52,13 @@ const Login = () => {
           marginTop: "5%",
         }}
         onClick={async () => {
-          await loginWithRedirect();
-          if (isAuthenticated) {
+          await worldcoinLogin();
+          if (worldcoinAuthenticated) {
             await authenticateWorldcoin();
           }
         }}
       >
-        {isAuthenticated && (
+        {worldcoinAuthenticated && (
           <CheckCircleIcon color="success" style={{ marginRight: 10 }} />
         )}
         <Avatar alt="Worldcoin" src={worldcoin} style={{ marginRight: 10 }} />
@@ -100,15 +97,6 @@ const Login = () => {
 
   return (
     <div>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" color="inherit">
-          <Toolbar>
-            <Typography variant="h2" component="h1">
-              Welcome to ZAP 🇫🇷
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Box>
       <Paper
         elevation={24}
         style={{
