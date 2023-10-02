@@ -22,8 +22,10 @@ const AdsList = () => {
 
   return (
     <>
+      <Button onClick={fetchAI} variant="contained" color="primary">
+        Fetch me an ad!
+      </Button>
       <AdCardVote ad={ad} />
-      <Button onClick={fetchAI}>Recommend me!</Button>
     </>
   );
 };

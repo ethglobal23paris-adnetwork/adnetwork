@@ -3,13 +3,14 @@ import {
   Input,
   List,
   ListItem,
-  ListItemText,
   TextField,
   Button,
+  Typography,
 } from "@mui/material";
-import { Web3Storage } from "web3.storage";
+import { makeStorageClient } from "../helpers/ipfs";
 import { BACKEND_URL } from "../helpers/config";
 import Ethereum from "../helpers/Ethereum";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const AdsUpload = () => {
   const [wallet_id, setWalletId] = useState("");
@@ -18,8 +19,8 @@ const AdsUpload = () => {
   const [redirect_url, setRedirectUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
-  const YOUR_WEB3_STORAGE_API_TOKEN =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGQ4NjcxQTNlRkMwQWNiOWJCOGRlMTkxRTU3ZjczNGZGYjExRUI4YTgiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2OTAwMjgwMTE0MzYsIm5hbWUiOiJ6YXAifQ.w7Y43yX2S0etFLtbzthh3duoO6FYokHvmX-r9_ddElA";
+  const [error, setError] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0); // Add this state variable
 
   useEffect(() => {
     // Fetch the wallet ID from MetaMask and pre-populate the field
@@ -52,102 +53,153 @@ const AdsUpload = () => {
   };
 
   const handleUpload = async () => {
-    if (selectedFile) {
-      if (
-        selectedFile.type === "image/jpeg" &&
-        selectedFile.size <= 5 * 1024 * 1024
-      ) {
-        // Create a web3.storage client
-        const client = new Web3Storage({ token: YOUR_WEB3_STORAGE_API_TOKEN });
-        // Prepare the data for upload
-        const data = [selectedFile];
-        try {
-          // Upload the file to web3.storage
-          const cid = await client.put(data);
+    setError("");
+    if (!selectedFile) {
+      setError("Please select a file for upload.");
+      return;
+    }
 
-          // Send the walletId and keywords to the backend
-          const response = await fetch(`${BACKEND_URL}/upload`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              wallet_id: wallet_id,
-              redirect_url: redirect_url,
-              keywords: keywords,
-              ppc: ppc,
-              cid: cid,
-            }),
-          });
+    if (
+      selectedFile.type !== "image/jpeg" ||
+      selectedFile.size > 5 * 1024 * 1024
+    ) {
+      setError("Please select a JPG file (less than 5 MB) for upload.");
+      return;
+    }
 
-          if (!response.ok) {
-            setUploadStatus("Failed to upload file. Please try again later.");
-          } else {
-            setUploadStatus(`File uploaded successfully! CID: ${cid}`);
-            await Ethereum.genAd(wallet_id, cid, redirect_url, keywords);
-          }
+    const client = makeStorageClient();
 
-          // Handle successful upload
-          setSelectedFile(null);
-          setKeywords("");
-        } catch (error) {
-          // Handle upload error
-          setUploadStatus("File upload failed. Please try again later.");
-        }
+    try {
+      // Prepare the data for upload
+      const data = [selectedFile];
+
+      // Upload the file to web3.storage
+      const cid = await client.put(data);
+
+      // Send the walletId and other data to the backend
+      const response = await fetch(`${BACKEND_URL}/upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          wallet_id: wallet_id,
+          redirect_url: redirect_url,
+          keywords: keywords,
+          ppc: ppc,
+          cid: cid,
+        }),
+      });
+
+      if (!response.ok) {
+        setUploadStatus("Failed to upload file. Please try again later.");
       } else {
-        setUploadStatus(
-          "Please select a JPG file (less than 5 MB) for upload."
-        );
+        setUploadStatus(`File uploaded successfully! CID: ${cid}`);
+        await Ethereum.genAd(wallet_id, cid, redirect_url, keywords);
+        setSelectedFile(null);
+        setKeywords("");
+        setPPC("");
+        setRedirectUrl("");
+        setUploadProgress(0);
       }
-    } else {
-      setUploadStatus("Please select a file for upload.");
+    } catch (error) {
+      // Handle upload error
+      setUploadStatus("File upload failed. Please try again later.");
     }
   };
 
   return (
-    <List>
-      <ListItem>
-        <Input type="file" accept="image/jpeg" onChange={handleFileChange} />
-      </ListItem>
-      <ListItem>
-        <TextField
-          label="Redirect URL"
-          value={redirect_url}
-          onChange={handleRedirectChange}
-        />
-      </ListItem>
-      <ListItem>
-        <TextField
-          label="AI Recommendation Keywords (separate with commas) e.g. 'car, insurance'"
-          value={keywords}
-          onChange={handleKeywordsChange}
-        />
-      </ListItem>
-      <ListItem>
-        <TextField
-          label="Pay Per Click (PPC) Bid (in ETH) e.g. '0.001'"
-          value={ppc}
-          onChange={handlePPCChange}
-        />
-      </ListItem>
-      <ListItem>
-        <TextField
-          label="MetaMask Wallet Address (pre-populated)"
-          value={wallet_id}
-          disabled
-        />
-      </ListItem>
-      <ListItem>
-        <Button variant="contained" color="primary" onClick={handleUpload}>
-          Upload
-        </Button>
-      </ListItem>
-      {uploadStatus && (
-        <ListItem>
-          <ListItemText primary={uploadStatus} />
-        </ListItem>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "20px",
+          width: "100%",
+        }}
+      >
+        <div style={{ flex: 1, marginRight: "10px" }}>
+          <input
+            type="file"
+            accept="image/jpeg"
+            id="file-upload"
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="file-upload">
+            <Button
+              variant="contained"
+              color="primary"
+              component="span"
+              className="custom-file-button mb-3"
+            >
+              Select File
+            </Button>
+          </label>
+        </div>
+      </div>
+      <TextField
+        label="Redirect URL"
+        value={redirect_url}
+        onChange={handleRedirectChange}
+        fullWidth
+        style={{ marginBottom: "10px" }}
+      />
+      <TextField
+        label="AI Recommendation Keywords (separate with commas) e.g. 'car, insurance'"
+        value={keywords}
+        onChange={handleKeywordsChange}
+        fullWidth
+        style={{ marginBottom: "10px" }}
+      />
+      <TextField
+        label="Pay Per Click (PPC) Bid (in ETH) e.g. '0.001'"
+        value={ppc}
+        onChange={handlePPCChange}
+        defaultValue={0.001}
+        fullWidth
+        style={{ marginBottom: "10px" }}
+      />
+      <TextField
+        label="MetaMask Wallet Address (pre-populated)"
+        value={wallet_id || "Please connect MetaMask"}
+        disabled
+        fullWidth
+        style={{ marginBottom: "10px" }}
+      />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleUpload}
+        fullWidth
+      >
+        Upload
+      </Button>
+      {error && (
+        <Typography variant="body2" color="error" style={{ marginTop: "10px" }}>
+          {error}
+        </Typography>
       )}
-    </List>
+      {uploadProgress > 0 && uploadProgress < 100 && (
+        <LinearProgress
+          variant="determinate"
+          value={uploadProgress}
+          style={{ width: "100%", marginTop: "10px" }}
+        />
+      )}
+      {uploadStatus && (
+        <Typography
+          variant="body2"
+          color="success"
+          style={{ marginTop: "10px" }}
+        >
+          {uploadStatus}
+        </Typography>
+      )}
+    </div>
   );
 };
 
