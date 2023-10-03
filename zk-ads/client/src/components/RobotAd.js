@@ -5,9 +5,11 @@ import { BACKEND_URL } from "../helpers/config";
 
 const AdsList = () => {
   const [ad, setAd] = useState();
+  const [error, setError] = useState(null); // Add state for error
 
   const fetchAI = async () => {
     try {
+      setError(null); // Clear any previous errors
       const response = await fetch(`${BACKEND_URL}/ai`);
       if (!response.ok) {
         throw new Error("Failed to fetch ai ads.");
@@ -17,6 +19,7 @@ const AdsList = () => {
       console.log("data", data);
     } catch (error) {
       console.error("Error fetching ads:", error);
+      setError(error.message); // Set the error message in state
     }
   };
 
@@ -25,7 +28,11 @@ const AdsList = () => {
       <Button onClick={fetchAI} variant="contained" color="primary">
         Fetch me an ad!
       </Button>
-      <AdCardVote ad={ad} />
+      {error ? ( // Display error message if an error occurred
+        <p>Error: {error}</p>
+      ) : (
+        <AdCardVote ad={ad} />
+      )}
     </>
   );
 };
