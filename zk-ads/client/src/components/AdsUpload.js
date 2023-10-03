@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Input,
   List,
@@ -12,18 +12,20 @@ import { BACKEND_URL } from "../helpers/config";
 import Ethereum from "../helpers/Ethereum";
 import LinearProgress from "@mui/material/LinearProgress";
 
+const DEFAULT_PPC = 0.001;
+
 const AdsUpload = () => {
   const [wallet_id, setWalletId] = useState("");
   const [keywords, setKeywords] = useState("");
-  const [ppc, setPPC] = useState("");
+  const [ppc, setPPC] = useState(DEFAULT_PPC);
   const [redirect_url, setRedirectUrl] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [error, setError] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0); // Add this state variable
 
-  useEffect(() => {
-    // Fetch the wallet ID from MetaMask and pre-populate the field
+  // Use useMemo to calculate wallet_id based on window.ethereum
+  const memoizedWalletId = useMemo(() => {
     if (window.ethereum) {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
@@ -34,7 +36,8 @@ const AdsUpload = () => {
           console.error("Error fetching wallet ID:", error);
         });
     }
-  }, []);
+    return wallet_id;
+  }, [wallet_id]);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -83,7 +86,7 @@ const AdsUpload = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          wallet_id: wallet_id,
+          wallet_id: memoizedWalletId,
           redirect_url: redirect_url,
           keywords: keywords,
           ppc: ppc,
@@ -95,10 +98,10 @@ const AdsUpload = () => {
         setUploadStatus("Failed to upload file. Please try again later.");
       } else {
         setUploadStatus(`File uploaded successfully! CID: ${cid}`);
-        await Ethereum.genAd(wallet_id, cid, redirect_url, keywords);
+        await Ethereum.genAd(memoizedWalletId, cid, redirect_url, keywords);
         setSelectedFile(null);
         setKeywords("");
-        setPPC("");
+        setPPC(DEFAULT_PPC);
         setRedirectUrl("");
         setUploadProgress(0);
       }
@@ -136,7 +139,7 @@ const AdsUpload = () => {
               component="span"
               className="custom-file-button mb-3"
             >
-              Select File
+              Select Ad image to upload to IPFS
             </Button>
           </label>
         </div>
@@ -165,7 +168,7 @@ const AdsUpload = () => {
       />
       <TextField
         label="MetaMask Wallet Address (pre-populated)"
-        value={wallet_id || "Please connect MetaMask"}
+        value={memoizedWalletId || "Please connect MetaMask"}
         disabled
         fullWidth
         style={{ marginBottom: "10px" }}
@@ -176,7 +179,7 @@ const AdsUpload = () => {
         onClick={handleUpload}
         fullWidth
       >
-        Upload
+        Create Ad
       </Button>
       {error && (
         <Typography variant="body2" color="error" style={{ marginTop: "10px" }}>

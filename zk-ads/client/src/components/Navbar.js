@@ -1,5 +1,5 @@
 // Navbar.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,6 +11,22 @@ const Navbar = () => {
   const [metamaskLoggedIn, setMetamaskLoggedIn] = useState(false);
   const [worldcoinLoggedIn, setWorldcoinLoggedIn] = useState(false);
   const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const [wallet_id, setWalletId] = useState("");
+
+    // Use useMemo to calculate wallet_id based on window.ethereum
+    const memoizedWalletId = useMemo(() => {
+      if (wallet_id === "" && window.ethereum) {
+        window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then((accounts) => {
+            setWalletId(accounts[0]);
+          })
+          .catch((error) => {
+            console.error("Error fetching wallet ID:", error);
+          });
+      }
+      return wallet_id;
+    }, [wallet_id]);
 
   useEffect(() => {
     // Check Metamask login status
@@ -50,6 +66,8 @@ const Navbar = () => {
     setWorldcoinLoggedIn(false);
   };
 
+  
+
   return (
     <AppBar position="static" color="inherit">
       <Toolbar>
@@ -59,7 +77,7 @@ const Navbar = () => {
         <div style={{ marginLeft: "auto" }}>
           {metamaskLoggedIn ? (
             <Button color="inherit" onClick={handleLogout}>
-              Logout from Metamask 
+            Connected with {memoizedWalletId || "Please connect MetaMask"}
             </Button>
           ) : (
             <Button color="inherit" onClick={handleMetamaskLogin}>
