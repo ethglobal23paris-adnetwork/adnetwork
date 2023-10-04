@@ -1,15 +1,8 @@
 import React, { useState, useMemo } from "react";
-import {
-  Input,
-  List,
-  ListItem,
-  TextField,
-  Button,
-  Typography,
-} from "@mui/material";
+import { TextField, Button, Typography } from "@mui/material";
 import { makeStorageClient } from "../helpers/ipfs";
 import { BACKEND_URL } from "../helpers/config";
-import Ethereum from "../helpers/Ethereum";
+import Ethereum from "../helpers/Metamask";
 import LinearProgress from "@mui/material/LinearProgress";
 
 const DEFAULT_PPC = 0.001;
@@ -166,13 +159,25 @@ const AdsUpload = () => {
         fullWidth
         style={{ marginBottom: "10px" }}
       />
-      <TextField
-        label="MetaMask Wallet Address (pre-populated)"
-        value={memoizedWalletId || "Please connect MetaMask"}
-        disabled
-        fullWidth
-        style={{ marginBottom: "10px" }}
-      />
+      {memoizedWalletId ? (
+        <TextField
+          label="MetaMask Wallet Address (pre-populated)"
+          value={memoizedWalletId || "Please connect MetaMask"}
+          disabled
+          fullWidth
+          style={{ marginBottom: "10px" }}
+        />
+      ) : (
+        <Button
+          color="inherit"
+          onClick={async () => {
+            await Ethereum.connect();
+          }}
+        >
+          Login with Metamask
+        </Button>
+      )}
+
       <Button
         variant="contained"
         color="primary"

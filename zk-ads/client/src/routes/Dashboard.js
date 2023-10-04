@@ -1,19 +1,11 @@
 import "../components/polyfills";
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, Grid, Divider, Card, CardContent } from "@mui/material";
 import AdsList from "../components/AdsList";
 import AdsUpload from "../components/AdsUpload";
 import RobotAd from "../components/RobotAd";
-import { useNavigate } from "react-router-dom";
-import Ethereum from "../helpers/Ethereum";
 
 const Dashboard = () => {
-  let navigate = useNavigate();
-
-  useEffect(() => {
-    Ethereum.connect();
-  }, [navigate]);
-
   return (
     <div>
       <Grid container spacing={4} style={{ padding: "2em" }}>
